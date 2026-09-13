@@ -1,14 +1,27 @@
-# 五个账号，共用一根物理线路
+# 多账号认证与连接级分流
 
-最初目标是 MacVLAN + 多 MiniEAP + MWAN3。实际最终落地为 MacVLAN + MiniEAP + 自定义 nftables/conntrack/ip rule 控制器。文档不把计划当成部署结果，也不建议把两套分流同时启用。
+五个 MiniEAP 实例通过同一物理 WAN 下的 MacVLAN 接入校园网，各自运行 DHCP，使用独立路由表。分流由 nftables、conntrack 和 ip rule 完成；不要与 MWAN3 共用同一组标记位。
 
-## 认证和接口
+```text
+LAN / Wi-Fi
+    │
+    ├─ 新连接：选择健康 WAN，保存 conntrack mark
+    └─ 后续包：恢复 mark，保持原出口
+                  │
+          路由表 101–105
+                  │
+      rpwan1 … rpwan5（MacVLAN）
+                  │
+             物理 WAN
+```
 
-先确认一个账号认证、DHCP、网关、DNS、真实 HTTPS 均正常，再逐个增加。每个实例独立配置、PID、日志、DHCP 回调和路由表。凭据用受限文件传入，避免 `-p 明文密码` 出现在进程命令行中。
+## 接口与认证
 
-最终五个 `rpwan1..5` 为 bridge 模式 MacVLAN，下挂同一物理 WAN。MAC 要在本地生成、唯一且稳定；不是克隆他人设备。五个获授权账号分别使用，学校是否允许该接入方式须以当地政策为准。
+先验证一个账号的认证、DHCP、网关和 HTTPS 连通性，再增加其他实例。每个实例使用独立配置、PID、日志和 DHCP 回调；密码通过受限配置文件传入。
 
-| WAN | 路由表 | WAN mark |
+参考实现使用 bridge 模式 MacVLAN，接口名为 `rpwan1..5`。MAC 地址需本地生成、唯一且稳定。
+
+| WAN | 路由表 | mark |
 | --- | --- | --- |
 | 1 | 101 | 0x00010000 |
 | 2 | 102 | 0x00020000 |
@@ -16,26 +29,24 @@
 | 4 | 104 | 0x00040000 |
 | 5 | 105 | 0x00050000 |
 
-接口名必须运行时核对；多个接口可能位于同一校园子网、共享网关。显式绑定设备和路由表，防止探测/认证后 DHCP 意外走另一 WAN。路由表保留 unreachable 默认作为线路失败保护。
+多路可能共享子网和网关，DHCP 与探测必须绑定对应接口。每张路由表保留 unreachable 默认路由，防止故障时从其他表意外出站。
 
-MiniEAP 的校区适配可能涉及服务端周期性用户名请求。不要把账号错误解释为网络调参问题：现场 WAN2 曾因用户名/密码问题失败，更正后再继续。参考 [KumaTea/minieap](https://github.com/KumaTea/minieap)、[undefined443 包](https://github.com/undefined443/openwrt-minieap-sysu)、[东校园状态机说明](https://github.com/bakabaka9405/minieap-sysu-east-openwrt)。分支、SDK 架构、包管理器及内核 ABI 要匹配，不直接安装其他路由器的 ipk/apk。
+MiniEAP 版本和插件需要适配校区。可参考 [KumaTea/minieap](https://github.com/KumaTea/minieap)、[undefined443 的 OpenWrt 包](https://github.com/undefined443/openwrt-minieap-sysu)及[东校园适配](https://github.com/bakabaka9405/minieap-sysu-east-openwrt)。
 
-## 等权按新连接分配
+## 分配规则
 
-最早按源/目的地址保持 30 分钟粘性，并仅对 Steam 域名更积极分流；后续按实际需求改为普通新连接也等权随机。
+- 五路健康时，300 个桶等分，每路 60 个。
+- 仅对 `ct state new` 且 WAN 位未设置的连接分配。
+- WAN 标记占 `0x00ff0000`，更新时保留其他位。
+- 故障线路不再接收新连接；恢复后逐步加入。
+- 已有连接保持原 mark 和 NAT；线路故障时不保证无缝迁移。
 
-- 健康五路：300 个桶，每路 60 个。
-- 仅 `ct state new` 且 WAN 位尚未设置时分配；后续包恢复保存的 mark。
-- WAN 仅占 `0x00ff0000`，按掩码更新，不能覆盖其他模块的位。
-- 同一网站的不同连接可使用不同 WAN；同一 TCP/UDP 连接的出口不能随包改变。
-- 故障线路停止接收新连接；恢复后渐进恢复资格。正常线路不因历史测速或当前负载再次偏置权重。
+等权指新连接的分配机会相同，不代表流量字节数均分。同一网站的不同连接可能走不同出口，对多 IP 敏感的业务可添加固定 WAN 例外。
 
-公网出口不一致并不要求整个网站永远固定一条线；但有些银行/登录/会话风控可能对多 IP 敏感，应为确有需要的业务增加窄范围例外。不要无依据给所有网站强粘性。
+一次 50 条 TCP 连接测试分布为 10/8/8/12/12；重载后检查的 55 条连接均保留 mark/NAT。单个连接不会叠加五路带宽，总吞吐还受连接分布、共享上联、服务器和 CPU 限制。
 
-小流量实测：同一目标 50 条新 TCP 分布为 10/8/8/12/12；跨策略更新保持 3 TCP + 2 UDP/NTP 的 mark/NAT，重载后 55 条均保持，应用无错误。随机等权不会保证少量连接或总字节严格均分，也不把单个 TCP 聚合成五倍带宽。
+## 整形与移植
 
-## 数据路径与恢复
+上传在各 `rpwan` 上运行 CAKE，下载通过 ingress mirred 转到对应 `rpifb`。单路故障只恢复对应实例，避免清空全部 conntrack。
 
-上传在每个 rpwan 上整形；下载通过 ingress mirred 到各自 rpifb，再走 CAKE。保持 PBR 标记、NAT 与 qdisc 计数可观察。单路认证守护带退避，只修复故障实例；不以 `killall minieap` 或全局清 conntrack 处理局部故障。
-
-[reference/router](../reference/router/README.md) 提供最终关键源码摘录及依赖清单。它不是完整安装包，不能覆盖到现有路由器就期望自动拥有防火墙、NAT、DHCP、健康探测和恢复流程。
+[参考源码](../reference/router/README.md)按五路编写，依赖已有防火墙、NAT、DHCP 与健康探测。移植时需核对物理接口、MAC 清单、路由表和 mark；改变线路数还需同步修改控制器及 sing-box 编译器。

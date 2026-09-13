@@ -9,7 +9,7 @@ The MIT license applies to original documentation, configuration compiler, offli
 > Copyright (c) 2018-2019 The Linux Foundation. All rights reserved.
 > Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 
-The patch contribution is provided under BSD-3-Clause-Clear as well. See [license text](LICENSES/BSD-3-Clause-Clear.txt). Its source-built hardware validation is pending; field validation used a version-pinned module shim, which is not distributed here. The patch does not assert that raw firmware WMI was captured or that all regulatory data is compliant with an official database.
+The patch contribution is provided under BSD-3-Clause-Clear as well. See [license text](LICENSES/BSD-3-Clause-Clear.txt) and [patch status](docs/02-qcn9074-cn.md).
 
 ## Referenced but not bundled
 

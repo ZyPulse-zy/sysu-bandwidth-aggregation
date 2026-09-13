@@ -1,19 +1,19 @@
-# 最终路由器源码摘录：阅读参考，不是安装包
+# 路由器参考脚本
 
-这些文件从 2026-09-13 只读取得的运行脚本白名单导出；LAN 地址替换为示例 `192.168.50.0/24`。不含账号、MAC清单、当前地址状态、节点或凭据。文件仍按原项目 `/root/router-project` 路径组织。
+以下是五路 WAN 实现的关键文件，目录约定为 `/root/router-project`，LAN 示例网段为 `192.168.50.0/24`。
 
-| 文件 | 用途 | 依赖与边界 |
+**这是源码摘录，缺少完整安装依赖，不可直接覆盖到路由器运行。**
+
+| 文件 | 用途 | 依赖 |
 | --- | --- | --- |
-| transaction.sh / router-project-guard | 持续回滚守护、期限/boot ID/哈希/验证门槛 | flock、timeout、ubus、jsonfilter、专用目录与guard服务；未安装guard不能arm |
-| checkpoint.sh | 配置与状态归档 | 归档含私人配置，不应上传；不覆盖原始分区或完整sing-box附加目录 |
-| prepare-macvlans.sh | 检查MAC/父接口/模式、创建五个MacVLAN | 本地私有policy/mac-map、wan及ip工具；会写网络状态，不能直接试运行 |
-| minieap-run.sh / router-project-minieap | 五个独立前台实例由procd管理 | MiniEAP、/etc/minieap/wanN.conf、enabled文件、DHCP回调；不含认证参数文件 |
-| dhcp-line.sh | 各线路租约/路由处理 | 需对应udhcpc实例与路由表规则；不是netifd全量替代教程 |
-| pbr.nft / pbr-ensure.sh | 300桶等权、mark与入口恢复 | 已有防火墙/NAT、路由表、health控制器；不要与MWAN3竞争相同mark位 |
-| health-controller.lua | 新连接资格、故障滞后和恢复爬升 | luci.jsonc、nixio、原机health-probes.sh输出契约；此摘录没有完整探测/安装依赖 |
-| auth-watchdog.lua | 独立故障恢复退避 | health状态、procd、原机auth-recover.sh；先明确业务恢复语义 |
-| wired-steering.lua | 本机四核WAN=e、LAN4=f、XPS对应队列 | 写sysfs；具体接口和队列数必须核对，不修改IRQ亲和性 |
+| transaction.sh / router-project-guard | 超时与重启回滚 | flock、timeout、ubus、jsonfilter、guard 服务 |
+| checkpoint.sh | 配置与状态归档 | 归档目录；不含原始分区和完整代理备份 |
+| prepare-macvlans.sh | 创建五个 MacVLAN | policy/mac-map、物理 wan、ip 工具 |
+| minieap-run.sh / router-project-minieap | procd 管理认证实例 | MiniEAP、/etc/minieap/wanN.conf、enabled 文件、DHCP 回调 |
+| dhcp-line.sh | 租约与路由处理 | udhcpc 实例、路由表规则 |
+| pbr.nft / pbr-ensure.sh | 等权连接分配与 mark 恢复 | 防火墙、NAT、路由表、health 控制器 |
+| health-controller.lua | 线路资格与恢复 | luci.jsonc、nixio、health-probes.sh 输出 |
+| auth-watchdog.lua | 单路故障退避恢复 | health 状态、procd、auth-recover.sh |
+| wired-steering.lua | RPS/XPS | 四核、对应接口与队列、sysfs |
 
-摘录保留最终行为以便审阅与移植，但没有附带所有 init/hotplug、依赖包、私有policy或内核模块。请按文档逐层实现并建立自己的独立回滚，不能将本目录批量覆盖到生产系统。公开版没有自动远程执行入口。
-
-代码与原机集成的成功不等于摘录在任意OpenWrt都可独立运行。跨平台部署仍是贡献者需要补充的验证工作。
+未附带全部 init/hotplug、健康探测、认证恢复、私有 policy 和内核模块。移植需补齐这些依赖，并核对接口、mark、路由表及回滚流程。

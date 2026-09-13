@@ -1,23 +1,19 @@
-# Steam 慢：先辨认是哪一段路径
+# Steam 下载排查
 
-先分开 Steam 客户端速度、Windows 网卡接收、路由器 WAN RX、CAKE 输出。它们统计窗口与协议层不同，差值不自动等于某一种重传/丢包。
+依次检查客户端限速与磁盘、下载连接的实际路径、CDN 与连接数、每 WAN 吞吐和 CAKE 速率，最后看逐核 CPU。客户端、网卡和路由器的统计窗口不同，应在相近时间段比较。
 
-## 三个实际结论
+## 350 Mbps 是否被 base 限制
 
-1. **约 350 Mbps 不是 70×5 的基准硬限制。** 同时刻五路 CAKE 已升到约 100 Mbps；CPU0 softirq 压力较高，后续 RPS 对照改善最忙核心。
-2. **Clash 规则 DIRECT 仍会经过本机 Mihomo。** 真正旁路要确认 CDN 套接字归属 Steam 自己，而不只是配置界面显示 Direct。
-3. **确认旁路不等于确认提速。** 本机窄域名 Windows 代理例外在正常退出并重启 Steam 后生效，但本轮网卡 RX 从 370.01 Mbps 到 368.87/366.86 Mbps，没有明显收益，最终恢复原代理设置。
+一次约 350 Mbps 的下载中，五路 CAKE 已升到约 100 Mbps，CPU0 softirq 较高。下载 base=70 Mbps 并未将总速率锁在 350 Mbps；后续 [RPS 对照](05-cpu-and-nss.md)降低了 CPU0 压力。
 
-早期只刷新 Windows 系统代理例外，旧 Steam 进程并未采用；重启后主要 CDN TCP 连接归属 Steam，Mihomo 中相应连接消失。只为已观察到的下载域名设置例外，商店、社区等其他业务保留代理。没有强杀、修改路由器或开启额外 benchmark。
+## Clash 的 DIRECT 与真正旁路
 
-前后 CDN 地址、内容块与采样长度变化，以上是路径验证和短观察，不是严格配对性能证明。暂停/继续本身也曾让同一路径达到约 395 Mbps，不能把所有改善归因于绕过 Clash。
+DIRECT 仍由本机 Mihomo 转发。判断是否旁路，需要看 CDN TCP 套接字属于 Steam 还是 Mihomo。
 
-## HTTP 保活的小实验
+测试中，Windows 系统代理例外在正常退出并重启 Steam 后生效；只刷新代理设置时，旧进程仍使用原路径。例外范围限于已观察到的下载域名，商店与社区保留原代理。
 
-在 Mihomo v1.19.29 本地复现：普通 HTTP 请求只带 `Connection: keep-alive` 时代理要求关闭连接；额外带 `Proxy-Connection: keep-alive` 时能复用。源码有对应判断，但没有采集真实 Steam 请求头证明它触发了该机制。2 字节回环实验不是吞吐测试。
+旁路前网卡接收为 370.01 Mbps，之后为 368.87/366.86 Mbps，未见明显提速。CDN、内容块和采样时长不完全一致，这组结果用于确认路径，不能证明代理对所有下载都没有影响。[数据](../evidence/steam-proxy.csv)。
 
-TCP keepalive、HTTP 连接复用、DNS 并发连接竞速是不同机制。不要因为参数名含 keep-alive 或 tcp-concurrent 就认定能增加 Steam 下载流数。
+Mihomo v1.19.29 的 HTTP 入站对 `Proxy-Connection: keep-alive` 有专门处理，但未捕获真实 Steam 请求头确认该机制影响下载。TCP keepalive、HTTP 复用与并发下载连接数也不是同一参数。
 
-建议排查顺序：客户端限速/磁盘→实际套接字路径→CDN 与连接数量→每 WAN/CAKE 真实速率→逐核 CPU→一次有限的同条件旁路。无重复收益就恢复，不继续叠加代理例外、全局 DNS 或 governor 修改。
-
-来源：[Mihomo v1.19.29 HTTP 入站](https://github.com/MetaCubeX/mihomo/blob/v1.19.29/listener/http/proxy.go)、[Steam 官方排查](https://help.steampowered.com/en/faqs/view/5AC5-8056-E88F-F3FF)。
+参考：[Mihomo HTTP 入站](https://github.com/MetaCubeX/mihomo/blob/v1.19.29/listener/http/proxy.go)、[Steam 下载排查](https://help.steampowered.com/en/faqs/view/5AC5-8056-E88F-F3FF)。

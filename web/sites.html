@@ -249,7 +249,7 @@
     <span class="badge">离线编辑 · 候选配置</span>
     <h1>为每个网站生成出口策略。</h1>
     <p class="intro">
-      这是离线候选编辑器，只保存本机文件，不连接或配置路由器。五路对应关系由编译器生成。
+      选择网站使用的节点，生成五路 WAN 配置。文件保存在本机，不会自动部署。
     </p>
     <div class="bar">
       <small id="revision">正在读取本机候选…</small>
@@ -301,12 +301,7 @@
       </form>
     </section>
     <p class="foot">
-      这里仅生成候选。真实部署须先备份、运行目标 sing-box
-      check、建立独立回滚，再验证 DNS、PBR 和
-      CAKE。未完成这些步骤前不要替换生产配置。域名规则不能按网址路径区分。
-    </p>
-    <p class="foot">
-      面板只监听当前电脑回环地址，不使用 SSH 或节点密钥，不探测节点。
+      保存后按<a href="https://github.com/ZyPulse-zy/sysu-bandwidth-aggregation/blob/main/docs/08-singbox.md">部署说明</a>校验配置。域名规则不区分网址路径。
     </p>
   </main>
   <script>
@@ -317,12 +312,7 @@
     const labels = {
       "US-West-IPv4-Reality": "美国西部 · 示例节点",
       "US-Central-IPv4-Reality": "美国中部 · 示例节点",
-      "SG-IPv4-Reality": "新加坡 · VPS",
-      "US-SJ-IPv4-Reality": "圣何塞 · VPS",
-      "US-Dallas-IPv4-Reality": "达拉斯 · VPS",
-      "US-Frontier-Home": "Frontier · 家宽",
-      "SG-StarHub-Home": "新加坡 StarHub · 家宽（待恢复）",
-      "MY-Peak-Home": "MY Peak · 家宽",
+      "SG-IPv4-Reality": "新加坡 · 示例节点",
       DIRECT: "直连",
     };
     function renderBuiltins() {
@@ -506,7 +496,7 @@
         if (!r.ok) throw Error(j.error);
         await load();
         notice(
-          "候选已保存到 local/，尚未部署。节点占位符、目标核心和路由环境仍需单独验证。",
+          "已保存到 local/，尚未部署。",
         );
       } catch (e) {
         notice("未保存：" + e.message + "。请刷新读取本机已保存的候选。", true);
