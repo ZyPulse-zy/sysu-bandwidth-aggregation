@@ -1,0 +1,17 @@
+/local/
+/node_modules/
+/.env
+/.env.*
+!/.env.example
+*.log
+*.pcap
+*.pcapng
+*.pem
+*.key
+*.ko
+*.bin
+*.tar.gz
+*.db
+*.srs
+Thumbs.db
+.DS_Store

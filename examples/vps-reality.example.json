@@ -1,0 +1,43 @@
+{
+  "log": {
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    {
+      "listen": "0.0.0.0",
+      "port": 443,
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "REPLACE_WITH_PRIVATE_UUID",
+            "flow": "xtls-rprx-vision"
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "reality",
+        "realitySettings": {
+          "show": false,
+          "target": "REPLACE_WITH_APPROPRIATE_TLS_HOST:443",
+          "xver": 0,
+          "serverNames": [
+            "REPLACE_WITH_APPROPRIATE_TLS_HOST"
+          ],
+          "privateKey": "REPLACE_WITH_GENERATED_PRIVATE_KEY",
+          "shortIds": [
+            "REPLACE_WITH_SHORT_ID"
+          ]
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "tag": "direct"
+    }
+  ]
+}

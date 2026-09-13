@@ -1,0 +1,314 @@
+[
+  {
+    "section": "AI 服务",
+    "id": "openai",
+    "name": "ChatGPT / OpenAI",
+    "rule_set": [
+      "geosite-openai"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "AI 服务",
+    "id": "claude",
+    "name": "Claude / Anthropic",
+    "rule_set": [
+      "geosite-anthropic"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "AI 服务",
+    "id": "gemini",
+    "name": "Gemini",
+    "rule_set": [
+      "geosite-google-gemini"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "AI 服务",
+    "id": "copilot",
+    "name": "GitHub Copilot",
+    "rule_set": [
+      "geosite-github-copilot"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "AI 服务",
+    "id": "aiother",
+    "name": "其他 AI 服务",
+    "rule_set": [
+      "geosite-category-ai-!cn"
+    ],
+    "priority": 30
+  },
+  {
+    "section": "视频与音乐",
+    "id": "youtube",
+    "name": "YouTube",
+    "rule_set": [
+      "geosite-youtube"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "视频与音乐",
+    "id": "netflix",
+    "name": "Netflix",
+    "rule_set": [
+      "geosite-netflix"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "视频与音乐",
+    "id": "disney",
+    "name": "Disney+",
+    "rule_set": [
+      "geosite-disney"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "视频与音乐",
+    "id": "hbo",
+    "name": "HBO / Max",
+    "rule_set": [
+      "geosite-hbo"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "视频与音乐",
+    "id": "appletv",
+    "name": "Apple TV+",
+    "rule_set": [
+      "geosite-apple-tvplus"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "视频与音乐",
+    "id": "spotify",
+    "name": "Spotify",
+    "rule_set": [
+      "geosite-spotify"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "视频与音乐",
+    "id": "applemusic",
+    "name": "Apple Music",
+    "rule_set": [
+      "geosite-apple-music"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "视频与音乐",
+    "id": "tiktok",
+    "name": "TikTok",
+    "rule_set": [
+      "geosite-tiktok"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "视频与音乐",
+    "id": "twitch",
+    "name": "Twitch",
+    "rule_set": [
+      "geosite-twitch"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "视频与音乐",
+    "id": "bahamut",
+    "name": "巴哈姆特",
+    "rule_set": [
+      "geosite-bahamut"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "视频与音乐",
+    "id": "mediaother",
+    "name": "其他境外影音",
+    "rule_set": [
+      "geosite-category-media"
+    ],
+    "priority": 40
+  },
+  {
+    "section": "社交与通讯",
+    "id": "telegram",
+    "name": "Telegram",
+    "rule_set": [
+      "geosite-telegram"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "社交与通讯",
+    "id": "whatsapp",
+    "name": "WhatsApp",
+    "rule_set": [
+      "geosite-whatsapp"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "社交与通讯",
+    "id": "discord",
+    "name": "Discord",
+    "rule_set": [
+      "geosite-discord"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "社交与通讯",
+    "id": "twitter",
+    "name": "X / Twitter",
+    "rule_set": [
+      "geosite-twitter"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "社交与通讯",
+    "id": "instagram",
+    "name": "Instagram",
+    "rule_set": [
+      "geosite-instagram"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "社交与通讯",
+    "id": "facebook",
+    "name": "Facebook",
+    "rule_set": [
+      "geosite-facebook"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "社交与通讯",
+    "id": "reddit",
+    "name": "Reddit",
+    "rule_set": [
+      "geosite-reddit"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "开发服务",
+    "id": "github",
+    "name": "GitHub",
+    "rule_set": [
+      "geosite-github"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "开发服务",
+    "id": "docker",
+    "name": "Docker",
+    "rule_set": [
+      "geosite-docker"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "开发服务",
+    "id": "devother",
+    "name": "其他开发服务",
+    "rule_set": [
+      "geosite-category-dev"
+    ],
+    "priority": 50
+  },
+  {
+    "section": "平台与云服务",
+    "id": "google",
+    "name": "Google 服务",
+    "rule_set": [
+      "geosite-google"
+    ],
+    "priority": 60
+  },
+  {
+    "section": "平台与云服务",
+    "id": "microsoft",
+    "name": "Microsoft 服务",
+    "rule_set": [
+      "geosite-microsoft"
+    ],
+    "priority": 60
+  },
+  {
+    "section": "平台与云服务",
+    "id": "apple",
+    "name": "Apple 服务",
+    "rule_set": [
+      "geosite-apple"
+    ],
+    "priority": 60
+  },
+  {
+    "section": "平台与云服务",
+    "id": "onedrive",
+    "name": "OneDrive",
+    "rule_set": [
+      "geosite-onedrive"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "游戏平台",
+    "id": "steam",
+    "name": "Steam 境外服务",
+    "rule_set": [
+      "geosite-steam"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "游戏平台",
+    "id": "epic",
+    "name": "Epic Games",
+    "rule_set": [
+      "geosite-epicgames"
+    ],
+    "priority": 10
+  },
+  {
+    "section": "游戏平台",
+    "id": "gamesother",
+    "name": "其他境外游戏平台",
+    "rule_set": [
+      "geosite-category-games-!cn"
+    ],
+    "priority": 40
+  },
+  {
+    "section": "学术与兜底",
+    "id": "scholar",
+    "name": "学术与论文服务",
+    "rule_set": [
+      "geosite-category-scholar-!cn"
+    ],
+    "priority": 20
+  },
+  {
+    "section": "学术与兜底",
+    "id": "other",
+    "name": "其他境外网站",
+    "priority": 999
+  }
+]

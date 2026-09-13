@@ -1,0 +1,3 @@
+stage,wan_rps,wan_rx_mbps,cpu0_busy_pct,cpu0_softirq_pct,cpu1_busy_pct,cpu2_busy_pct,cpu3_busy_pct
+A,f,364.2,84.1,78.6,56.4,56.2,55.7
+B,e,376.0,71.1,60.4,66.4,67.4,68.5

@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+dl_if=rpifb1
+ul_if=rpwan1
+min_dl_shaper_rate_kbps=20000
+base_dl_shaper_rate_kbps=70000
+max_dl_shaper_rate_kbps=100000
+min_ul_shaper_rate_kbps=15000
+base_ul_shaper_rate_kbps=40000
+max_ul_shaper_rate_kbps=60000
+ping_extra_args="-I rpwan1"
+reflectors=("223.5.5.5" "119.29.29.29" "180.76.76.76")
+randomize_reflectors=0
+no_pingers=3
+reflector_ping_interval_s=1.0
+dl_owd_delta_thr_ms=7.0
+ul_owd_delta_thr_ms=7.0
+dl_avg_owd_delta_thr_ms=15.0
+ul_avg_owd_delta_thr_ms=15.0
+shaper_rate_adjust_up_load_high=1.02
+monitor_achieved_rates_interval_ms=250
+connection_active_thr_kbps=500
+output_cake_changes=1
+output_summary_stats=1
+debug=0
+log_file_path_override="/tmp/router-project-autorate"
+log_file_max_size_KB=512

@@ -1,0 +1,14 @@
+{
+  "name": "sysu-athena-network",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs && node tools/audit-public.mjs",
+    "generate": "node tools/generate.mjs",
+    "panel": "node tools/panel.mjs",
+    "rules": "node tools/fetch-rules.mjs"
+  }
+}

@@ -1,0 +1,721 @@
+{
+  "log": {
+    "level": "info"
+  },
+  "dns": {
+    "servers": [
+      {
+        "type": "fakeip",
+        "tag": "selected-fakeip",
+        "inet4_range": "198.18.0.0/15"
+      },
+      {
+        "type": "udp",
+        "tag": "campus-dns",
+        "server": "10.0.0.53",
+        "bind_interface": "rpwan1",
+        "routing_mark": 65536
+      },
+      {
+        "type": "https",
+        "tag": "dns-via-proxy",
+        "server": "1.1.1.1",
+        "tls": {
+          "enabled": true,
+          "server_name": "cloudflare-dns.com"
+        },
+        "detour": "proxy-dns"
+      }
+    ],
+    "rules": [
+      {
+        "query_type": [
+          "AAAA",
+          "HTTPS",
+          "SVCB"
+        ],
+        "action": "predefined",
+        "rcode": "NOERROR",
+        "answer": []
+      },
+      {
+        "domain_suffix": [
+          "sysu.edu.cn"
+        ],
+        "action": "route",
+        "server": "campus-dns"
+      },
+      {
+        "rule_set": [
+          "geosite-private",
+          "geosite-steam@cn",
+          "geosite-category-games@cn"
+        ],
+        "action": "route",
+        "server": "campus-dns"
+      },
+      {
+        "rule_set": [
+          "geosite-openai",
+          "geosite-youtube"
+        ],
+        "query_type": [
+          "A"
+        ],
+        "action": "route",
+        "server": "selected-fakeip"
+      },
+      {
+        "rule_set": [
+          "geosite-cn"
+        ],
+        "action": "route",
+        "server": "campus-dns"
+      },
+      {
+        "rule_set": [
+          "geosite-geolocation-!cn"
+        ],
+        "query_type": [
+          "A"
+        ],
+        "action": "route",
+        "server": "selected-fakeip"
+      },
+      {
+        "rule_set": [
+          "geosite-geolocation-!cn"
+        ],
+        "action": "route",
+        "server": "dns-via-proxy"
+      }
+    ],
+    "final": "campus-dns"
+  },
+  "inbounds": [
+    {
+      "type": "direct",
+      "tag": "dns-in",
+      "listen": "127.0.0.1",
+      "listen_port": 15353
+    },
+    {
+      "type": "tproxy",
+      "tag": "tproxy-wan1",
+      "listen": "127.0.0.1",
+      "listen_port": 15301
+    },
+    {
+      "type": "tproxy",
+      "tag": "tproxy-wan2",
+      "listen": "127.0.0.1",
+      "listen_port": 15302
+    },
+    {
+      "type": "tproxy",
+      "tag": "tproxy-wan3",
+      "listen": "127.0.0.1",
+      "listen_port": 15303
+    },
+    {
+      "type": "tproxy",
+      "tag": "tproxy-wan4",
+      "listen": "127.0.0.1",
+      "listen_port": 15304
+    },
+    {
+      "type": "tproxy",
+      "tag": "tproxy-wan5",
+      "listen": "127.0.0.1",
+      "listen_port": 15305
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "vless",
+      "tag": "SG-IPv4-Reality@dns",
+      "server": "198.51.100.10",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan1",
+      "routing_mark": 65536
+    },
+    {
+      "type": "vless",
+      "tag": "SG-IPv4-Reality@wan1",
+      "server": "198.51.100.10",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan1",
+      "routing_mark": 65536
+    },
+    {
+      "type": "vless",
+      "tag": "SG-IPv4-Reality@wan2",
+      "server": "198.51.100.10",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan2",
+      "routing_mark": 131072
+    },
+    {
+      "type": "vless",
+      "tag": "SG-IPv4-Reality@wan3",
+      "server": "198.51.100.10",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan3",
+      "routing_mark": 196608
+    },
+    {
+      "type": "vless",
+      "tag": "SG-IPv4-Reality@wan4",
+      "server": "198.51.100.10",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan4",
+      "routing_mark": 262144
+    },
+    {
+      "type": "vless",
+      "tag": "SG-IPv4-Reality@wan5",
+      "server": "198.51.100.10",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan5",
+      "routing_mark": 327680
+    },
+    {
+      "type": "vless",
+      "tag": "US-West-IPv4-Reality@dns",
+      "server": "198.51.100.11",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan1",
+      "routing_mark": 65536
+    },
+    {
+      "type": "vless",
+      "tag": "US-West-IPv4-Reality@wan1",
+      "server": "198.51.100.11",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan1",
+      "routing_mark": 65536
+    },
+    {
+      "type": "vless",
+      "tag": "US-West-IPv4-Reality@wan2",
+      "server": "198.51.100.11",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan2",
+      "routing_mark": 131072
+    },
+    {
+      "type": "vless",
+      "tag": "US-West-IPv4-Reality@wan3",
+      "server": "198.51.100.11",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan3",
+      "routing_mark": 196608
+    },
+    {
+      "type": "vless",
+      "tag": "US-West-IPv4-Reality@wan4",
+      "server": "198.51.100.11",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan4",
+      "routing_mark": 262144
+    },
+    {
+      "type": "vless",
+      "tag": "US-West-IPv4-Reality@wan5",
+      "server": "198.51.100.11",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan5",
+      "routing_mark": 327680
+    },
+    {
+      "type": "vless",
+      "tag": "US-Central-IPv4-Reality@dns",
+      "server": "198.51.100.12",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan1",
+      "routing_mark": 65536
+    },
+    {
+      "type": "vless",
+      "tag": "US-Central-IPv4-Reality@wan1",
+      "server": "198.51.100.12",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan1",
+      "routing_mark": 65536
+    },
+    {
+      "type": "vless",
+      "tag": "US-Central-IPv4-Reality@wan2",
+      "server": "198.51.100.12",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan2",
+      "routing_mark": 131072
+    },
+    {
+      "type": "vless",
+      "tag": "US-Central-IPv4-Reality@wan3",
+      "server": "198.51.100.12",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan3",
+      "routing_mark": 196608
+    },
+    {
+      "type": "vless",
+      "tag": "US-Central-IPv4-Reality@wan4",
+      "server": "198.51.100.12",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan4",
+      "routing_mark": 262144
+    },
+    {
+      "type": "vless",
+      "tag": "US-Central-IPv4-Reality@wan5",
+      "server": "198.51.100.12",
+      "server_port": 443,
+      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
+          "short_id": "REPLACE_WITH_SHORT_ID"
+        }
+      },
+      "bind_interface": "rpwan5",
+      "routing_mark": 327680
+    },
+    {
+      "type": "selector",
+      "tag": "proxy-wan1",
+      "outbounds": [
+        "SG-IPv4-Reality@wan1",
+        "US-West-IPv4-Reality@wan1",
+        "US-Central-IPv4-Reality@wan1"
+      ],
+      "default": "SG-IPv4-Reality@wan1",
+      "interrupt_exist_connections": false
+    },
+    {
+      "type": "selector",
+      "tag": "proxy-wan2",
+      "outbounds": [
+        "SG-IPv4-Reality@wan2",
+        "US-West-IPv4-Reality@wan2",
+        "US-Central-IPv4-Reality@wan2"
+      ],
+      "default": "SG-IPv4-Reality@wan2",
+      "interrupt_exist_connections": false
+    },
+    {
+      "type": "selector",
+      "tag": "proxy-wan3",
+      "outbounds": [
+        "SG-IPv4-Reality@wan3",
+        "US-West-IPv4-Reality@wan3",
+        "US-Central-IPv4-Reality@wan3"
+      ],
+      "default": "SG-IPv4-Reality@wan3",
+      "interrupt_exist_connections": false
+    },
+    {
+      "type": "selector",
+      "tag": "proxy-wan4",
+      "outbounds": [
+        "SG-IPv4-Reality@wan4",
+        "US-West-IPv4-Reality@wan4",
+        "US-Central-IPv4-Reality@wan4"
+      ],
+      "default": "SG-IPv4-Reality@wan4",
+      "interrupt_exist_connections": false
+    },
+    {
+      "type": "selector",
+      "tag": "proxy-wan5",
+      "outbounds": [
+        "SG-IPv4-Reality@wan5",
+        "US-West-IPv4-Reality@wan5",
+        "US-Central-IPv4-Reality@wan5"
+      ],
+      "default": "SG-IPv4-Reality@wan5",
+      "interrupt_exist_connections": false
+    },
+    {
+      "type": "selector",
+      "tag": "proxy-dns",
+      "outbounds": [
+        "SG-IPv4-Reality@dns",
+        "US-West-IPv4-Reality@dns",
+        "US-Central-IPv4-Reality@dns"
+      ],
+      "default": "SG-IPv4-Reality@dns"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "inbound": [
+          "dns-in"
+        ],
+        "action": "hijack-dns"
+      },
+      {
+        "inbound": [
+          "tproxy-wan1",
+          "tproxy-wan2",
+          "tproxy-wan3",
+          "tproxy-wan4",
+          "tproxy-wan5"
+        ],
+        "action": "sniff"
+      },
+      {
+        "inbound": [
+          "tproxy-wan1"
+        ],
+        "action": "route",
+        "outbound": "proxy-wan1"
+      },
+      {
+        "inbound": [
+          "tproxy-wan2"
+        ],
+        "action": "route",
+        "outbound": "proxy-wan2"
+      },
+      {
+        "inbound": [
+          "tproxy-wan3"
+        ],
+        "action": "route",
+        "outbound": "proxy-wan3"
+      },
+      {
+        "inbound": [
+          "tproxy-wan4"
+        ],
+        "action": "route",
+        "outbound": "proxy-wan4"
+      },
+      {
+        "inbound": [
+          "tproxy-wan5"
+        ],
+        "action": "route",
+        "outbound": "proxy-wan5"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "local",
+        "tag": "geosite-private",
+        "format": "binary",
+        "path": "/etc/sing-box-athena/rules/private.srs"
+      },
+      {
+        "type": "local",
+        "tag": "geosite-steam@cn",
+        "format": "binary",
+        "path": "/etc/sing-box-athena/rules/steam@cn.srs"
+      },
+      {
+        "type": "local",
+        "tag": "geosite-category-games@cn",
+        "format": "binary",
+        "path": "/etc/sing-box-athena/rules/category-games@cn.srs"
+      },
+      {
+        "type": "local",
+        "tag": "geosite-openai",
+        "format": "binary",
+        "path": "/etc/sing-box-athena/rules/openai.srs"
+      },
+      {
+        "type": "local",
+        "tag": "geosite-youtube",
+        "format": "binary",
+        "path": "/etc/sing-box-athena/rules/youtube.srs"
+      },
+      {
+        "type": "local",
+        "tag": "geosite-cn",
+        "format": "binary",
+        "path": "/etc/sing-box-athena/rules/cn.srs"
+      },
+      {
+        "type": "local",
+        "tag": "geosite-geolocation-!cn",
+        "format": "binary",
+        "path": "/etc/sing-box-athena/rules/geolocation-!cn.srs"
+      }
+    ]
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "/etc/sing-box-athena/cache.db",
+      "cache_id": "athena-example",
+      "store_fakeip": true
+    }
+  }
+}

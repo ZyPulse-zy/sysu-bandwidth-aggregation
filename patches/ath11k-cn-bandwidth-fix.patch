@@ -1,0 +1,40 @@
+From: Local RE-CS-02 maintenance
+Subject: [PATCH] wifi: ath11k: constrain malformed CN upper-5GHz rule
+
+On JDCloud RE-CS-02, ath11k submits a QCN9074 CN rule for
+5735-5835 MHz with max bandwidth 160 MHz. cfg80211 rejects the entire
+regdomain because bandwidth exceeds the 100 MHz frequency span.
+The malformed submitted rule was captured with firmware WLAN.HK.2.15.
+Raw WMI was not captured; firmware versus parsing responsibility is unresolved. The device's
+stock WLAN.HK.2.5.r4 also failed CN, without a per-rule trace. A RAM-only
+diagnostic on the installed module captured
+the offending rule; a narrowly scoped 80 MHz correction permits CN.
+
+Correct only this exact malformed rule on the copied regdomain before
+submission. Do not change country, frequencies, power or DFS flags.
+This source patch is provided for rebuilding; the accompanying live
+validation used a version-pinned module shim, not a source-built image.
+
+--- a/drivers/net/wireless/ath/ath11k/reg.c
++++ b/drivers/net/wireless/ath/ath11k/reg.c
+@@ -286,6 +286,20 @@ int ath11k_regd_update(struct ath11k *ar)
+ 		goto err;
+ 	}
+ 
++	if (regd_copy->alpha2[0] == 'C' && regd_copy->alpha2[1] == 'N') {
++		unsigned int i;
++
++		for (i = 0; i < regd_copy->n_reg_rules; i++) {
++			struct ieee80211_freq_range *range;
++
++			range = &regd_copy->reg_rules[i].freq_range;
++			if (range->start_freq_khz == MHZ_TO_KHZ(5735) &&
++			    range->end_freq_khz == MHZ_TO_KHZ(5835) &&
++			    range->max_bandwidth_khz == MHZ_TO_KHZ(160))
++				range->max_bandwidth_khz = MHZ_TO_KHZ(80);
++		}
++	}
++
+ 	ret = regulatory_set_wiphy_regd(ar->hw->wiphy, regd_copy);
+ 
+ 	kfree(regd_copy);

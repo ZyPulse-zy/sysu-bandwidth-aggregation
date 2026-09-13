@@ -1,0 +1,4 @@
+stage,window_seconds,pc_nic_rx_mbps,path
+A,25.3,370.01,Steam-via-local-Mihomo
+B,44.9,368.87,Steam-direct-CDN
+B_followup,29.7,366.86,Steam-direct-CDN

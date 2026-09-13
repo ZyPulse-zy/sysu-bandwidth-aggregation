@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="zh-CN">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Athena · 离线网站策略</title
+  ><link rel="icon" href="data:," />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f6f3;
+      --ink: #202b25;
+      --muted: #647369;
+      --line: #dce3dc;
+      --accent: #236d4b;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font:
+        15px/1.6 system-ui,
+        "Microsoft YaHei",
+        sans-serif;
+    }
+    main {
+      max-width: 1040px;
+      margin: auto;
+      padding: 40px 24px;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 36px;
+    }
+    nav strong {
+      letter-spacing: 0.16em;
+      font-size: 15px;
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    h1 {
+      font-size: 38px;
+      line-height: 1.2;
+      letter-spacing: -1px;
+      margin: 12px 0;
+    }
+    h2 {
+      font-size: 19px;
+      margin: 0 0 16px;
+    }
+    .intro {
+      color: var(--muted);
+      max-width: 660px;
+    }
+    .badge {
+      font-size: 12px;
+      background: #e5eee7;
+      border: 1px solid #cbdccd;
+      padding: 5px 10px;
+      border-radius: 20px;
+      color: var(--accent);
+    }
+    .bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .panel {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 310px;
+      align-items: center;
+      gap: 18px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .row:last-child {
+      border: 0;
+    }
+    .desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+    select,
+    input,
+    button {
+      font: inherit;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 10px 12px;
+      background: white;
+      color: var(--ink);
+    }
+    select {
+      width: 100%;
+    }
+    button {
+      cursor: pointer;
+    }
+    button:hover {
+      border-color: var(--accent);
+    }
+    button.primary {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      font-weight: 600;
+      padding: 11px 24px;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: wait;
+    }
+    input:focus,
+    select:focus,
+    button:focus-visible {
+      outline: 2px solid #82b59a;
+      outline-offset: 2px;
+    }
+    .add {
+      display: grid;
+      grid-template-columns: 1.3fr 0.8fr 1.2fr auto;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .custom {
+      display: grid;
+      grid-template-columns: 1fr 270px auto;
+      gap: 14px;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .foot {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 18px 0;
+    }
+    #notice {
+      padding: 12px 16px;
+      border-left: 3px solid var(--accent);
+      background: #eaf2ec;
+      min-height: 48px;
+      white-space: pre-wrap;
+    }
+    #notice.error {
+      border-color: #ac4b38;
+      background: #f8eae6;
+      color: #8b3528;
+    }
+    .empty {
+      color: var(--muted);
+      padding: 20px 0;
+    }
+    .mono {
+      font-family: ui-monospace, Consolas, monospace;
+    }
+    .danger {
+      color: #984232;
+    }
+    small {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    @media (max-width: 700px) {
+      main {
+        padding: 24px 16px;
+      }
+      .row,
+      .custom,
+      .add {
+        grid-template-columns: 1fr;
+      }
+      h1 {
+        font-size: 32px;
+      }
+      .panel {
+        padding: 18px;
+      }
+      .bar {
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+    }
+    .categories {
+      border-top: 1px solid var(--line);
+    }
+    details {
+      border-bottom: 1px solid var(--line);
+      padding: 12px 0;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: 650;
+      padding: 8px 0;
+      list-style-position: inside;
+    }
+    summary small {
+      font-weight: 400;
+      margin-left: 10px;
+    }
+    .category-body {
+      padding: 0 8px 10px;
+    }
+    #filter {
+      width: 100%;
+      margin: 4px 0 16px;
+    }
+    .direct-note {
+      background: #edf3ee;
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+    .direct-note strong {
+      font-size: 14px;
+    }
+    details[hidden],
+    .row[hidden] {
+      display: none;
+    }
+    .row select {
+      min-width: 0;
+    }
+  </style>
+  <main>
+    <nav>
+      <strong>ATHENA / NETWORK</strong
+      ><a href="https://github.com/ZyPulse-zy/sysu-athena-network"
+        >项目文档 ↗</a
+      >
+    </nav>
+    <span class="badge">离线编辑 · 候选配置</span>
+    <h1>为每个网站生成出口策略。</h1>
+    <p class="intro">
+      这是离线候选编辑器，只保存本机文件，不连接或配置路由器。五路对应关系由编译器生成。
+    </p>
+    <div class="bar">
+      <small id="revision">正在读取本机候选…</small>
+      <div>
+        <button id="refresh">刷新</button>
+        <button class="primary" id="save" disabled>保存所有修改</button>
+      </div>
+    </div>
+    <div id="notice" role="status" aria-live="polite">正在读取候选配置…</div>
+    <section class="panel">
+      <h2>常用网站分类 <small id="catalog-count"></small></h2>
+      <input
+        id="filter"
+        type="search"
+        aria-label="搜索服务分类"
+        placeholder="搜索服务：YouTube、Claude、Steam…"
+      />
+      <div id="builtin" class="categories"></div>
+      <div class="direct-note">
+        <strong>国内与校园服务 · 默认直连</strong>
+        <div class="desc">
+          包括哔哩哔哩、国内视频音乐、微信／QQ、校园网与 Steam 国内下载
+          CDN；这些流量保留五路校园网分流。平台大类仅调整命中代理分类的流量。
+        </div>
+      </div>
+      <div class="foot">
+        分类域名由 MetaCubeX 开源规则集匹配。国内、校园网与 Steam 国内 CDN
+        默认直连。
+      </div>
+    </section>
+    <section class="panel">
+      <h2>自定义网站</h2>
+      <p class="desc">
+        生成的自定义域名优先于公共分类。选择“含子域名”可覆盖该域名及其子域名；校园和局域网域名保留保护。
+      </p>
+      <div id="custom"></div>
+      <form id="add" class="add">
+        <input
+          id="domain"
+          aria-label="网站域名"
+          placeholder="例如 example.com"
+          autocomplete="off"
+          required
+        /><select id="match" aria-label="匹配范围">
+          <option value="suffix">含子域名</option>
+          <option value="exact">仅这个域名</option></select
+        ><select id="newnode" aria-label="新规则出口"></select
+        ><button type="submit">加入列表</button>
+      </form>
+    </section>
+    <p class="foot">
+      这里仅生成候选。真实部署须先备份、运行目标 sing-box
+      check、建立独立回滚，再验证 DNS、PBR 和
+      CAKE。未完成这些步骤前不要替换生产配置。域名规则不能按网址路径区分。
+    </p>
+    <p class="foot">
+      面板只监听当前电脑回环地址，不使用 SSH 或节点密钥，不探测节点。
+    </p>
+  </main>
+  <script>
+    const $ = (s) => document.querySelector(s);
+    let data,
+      draft,
+      busy = false;
+    const labels = {
+      "US-West-IPv4-Reality": "美国西部 · 示例节点",
+      "US-Central-IPv4-Reality": "美国中部 · 示例节点",
+      "SG-IPv4-Reality": "新加坡 · VPS",
+      "US-SJ-IPv4-Reality": "圣何塞 · VPS",
+      "US-Dallas-IPv4-Reality": "达拉斯 · VPS",
+      "US-Frontier-Home": "Frontier · 家宽",
+      "SG-StarHub-Home": "新加坡 StarHub · 家宽（待恢复）",
+      "MY-Peak-Home": "MY Peak · 家宽",
+      DIRECT: "直连",
+    };
+    function renderBuiltins() {
+      const b = $("#builtin");
+      b.replaceChildren();
+      const sections = [...new Set(data.catalog.map((g) => g.section))];
+      $("#catalog-count").textContent =
+        sections.length + " 个板块 · " + data.catalog.length + " 个分组";
+      for (const section of sections) {
+        const entries = data.catalog.filter((g) => g.section === section),
+          details = document.createElement("details"),
+          summary = document.createElement("summary"),
+          count = document.createElement("small"),
+          body = document.createElement("div");
+        details.open = true;
+        summary.append(document.createTextNode(section));
+        count.textContent = entries.length + " 项";
+        summary.append(count);
+        body.className = "category-body";
+        for (const g of entries) {
+          const r = document.createElement("div");
+          r.className = "row";
+          r.dataset.search = (
+            g.name +
+            " " +
+            g.id +
+            " " +
+            section
+          ).toLowerCase();
+          const left = document.createElement("div"),
+            t = document.createElement("strong"),
+            d = document.createElement("div");
+          t.textContent = g.name;
+          d.className = "desc";
+          d.textContent =
+            g.id === "other"
+              ? "未命中其他分类的境外流量"
+              : g.id.endsWith("other")
+                ? "该类别中未单独列出的服务"
+                : ["google", "microsoft", "apple"].includes(g.id)
+                  ? "具体服务分组优先；国内域名保留直连"
+                  : "可独立选择节点；具体域名以开源规则集为准";
+          left.append(t, d);
+          const select = optionSelect(
+            draft.selected[g.id],
+            (v) => (draft.selected[g.id] = v),
+          );
+          select.setAttribute("aria-label", g.name + " 出口");
+          r.append(left, select);
+          body.append(r);
+        }
+        details.append(summary, body);
+        b.append(details);
+      }
+      filterGroups();
+    }
+    function filterGroups() {
+      const q = $("#filter").value.trim().toLowerCase();
+      for (const d of $("#builtin").children) {
+        let visible = 0;
+        for (const row of d.querySelectorAll(".row")) {
+          row.hidden = !!q && !row.dataset.search.includes(q);
+          if (!row.hidden) visible++;
+        }
+        d.hidden = !visible;
+        if (q && visible) d.open = true;
+      }
+    }
+    function notice(t, error = false) {
+      $("#notice").textContent = t;
+      $("#notice").className = error ? "error" : "";
+    }
+    function optionSelect(value, fn) {
+      let s = document.createElement("select");
+      for (const n of data.nodes) {
+        const o = document.createElement("option");
+        o.value = n;
+        o.textContent = labels[n] || n;
+        s.append(o);
+      }
+      s.value = value;
+      s.onchange = () => {
+        fn(s.value);
+        notice("有未保存的修改。点击“保存所有修改”生成候选。");
+      };
+      return s;
+    }
+    function render() {
+      renderBuiltins();
+      const custom = $("#custom");
+      custom.replaceChildren();
+      if (!draft.custom.length) {
+        const e = document.createElement("p");
+        e.className = "empty";
+        e.textContent = "尚未添加自定义网站，使用上面的公共分类即可。";
+        custom.append(e);
+      }
+      draft.custom.forEach((r, i) => {
+        const row = document.createElement("div");
+        row.className = "custom";
+        const name = document.createElement("div");
+        name.textContent = r.domain;
+        name.className = "mono";
+        const small = document.createElement("div");
+        small.className = "desc";
+        small.textContent =
+          r.match === "suffix" ? "包含全部子域名" : "精确域名";
+        name.append(small);
+        const s = optionSelect(r.node, (v) => (r.node = v));
+        s.setAttribute("aria-label", r.domain + " 出口");
+        const del = document.createElement("button");
+        del.textContent = "删除";
+        del.className = "danger";
+        del.onclick = () => {
+          draft.custom.splice(i, 1);
+          render();
+          notice("已从待保存列表移除。点击保存后生效。");
+        };
+        row.append(name, s, del);
+        custom.append(row);
+      });
+      const sel = optionSelect("SG-IPv4-Reality", () => {});
+      sel.id = "newnode";
+      sel.setAttribute("aria-label", "新规则出口");
+      $("#newnode").replaceWith(sel);
+      $("#revision").textContent =
+        "已保存版本 " +
+        draft.revision +
+        " · " +
+        (data.groups.every((g) => g.synchronized)
+          ? "候选五路选择一致"
+          : "检测到选择不一致，请刷新或重新保存");
+    }
+    async function load() {
+      try {
+        const r = await fetch("/site-api/state");
+        data = await r.json();
+        if (!r.ok) throw Error(data.error);
+        draft = structuredClone(data.state);
+        render();
+        $("#save").disabled = false;
+        notice("候选已读取。可独立选择出口；保存不会应用到路由器。");
+      } catch (e) {
+        notice(e.message, true);
+      }
+    }
+    $("#refresh").onclick = load;
+    $("#add").onsubmit = (e) => {
+      e.preventDefault();
+      let domain = $("#domain").value.trim().toLowerCase().replace(/\.$/, "");
+      if (
+        !domain ||
+        domain.includes("/") ||
+        domain.includes(":") ||
+        draft.custom.some((r) => r.domain === domain)
+      ) {
+        notice("请输入不含协议、端口和路径的域名，且不要重复添加。", true);
+        return;
+      }
+      draft.custom.push({
+        domain,
+        match: $("#match").value,
+        node: $("#newnode").value,
+      });
+      $("#domain").value = "";
+      render();
+      notice("已加入待保存列表。点击“保存所有修改”后生效。");
+    };
+    $("#save").onclick = async () => {
+      if (busy) return;
+      busy = true;
+      document.querySelectorAll("button").forEach((b) => (b.disabled = true));
+      notice("正在校验并保存本机候选，请稍候…");
+      try {
+        const r = await fetch("/site-api/state", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(draft),
+          }),
+          j = await r.json();
+        if (!r.ok) throw Error(j.error);
+        await load();
+        notice(
+          "候选已保存到 local/，尚未部署。节点占位符、目标核心和路由环境仍需单独验证。",
+        );
+      } catch (e) {
+        notice("未保存：" + e.message + "。请刷新读取本机已保存的候选。", true);
+      } finally {
+        busy = false;
+        document
+          .querySelectorAll("button")
+          .forEach((b) => (b.disabled = false));
+      }
+    };
+    $("#filter").oninput = filterGroups;
+    load();
+  </script>
+</html>

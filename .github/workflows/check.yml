@@ -1,0 +1,20 @@
+name: Check public package
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
+      - run: npm run generate
+      - name: Check reference shell syntax
+        run: |
+          for script in reference/router/*.sh reference/router/router-project-*; do sh -n "$script"; done
+          bash -n examples/cake-autorate.wan1.sh

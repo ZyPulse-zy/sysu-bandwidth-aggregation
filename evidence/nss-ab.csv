@@ -1,0 +1,3 @@
+stage,payload_mbps,wire_rx_mbps,cpu_avg_pct,softirq_avg_pct,max_loaded_p95_delta_ms,max_loaded_p99_delta_ms,nss_accelerated_peak
+A,282.52,288.23,58.08,45.49,2.9,6.4,0
+B,278.22,283.22,63.13,51.98,6.2,17.2,0

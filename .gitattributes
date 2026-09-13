@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.sh text eol=lf
+*.lua text eol=lf
+*.patch text eol=lf
+*.patch -whitespace
+*.json text eol=lf

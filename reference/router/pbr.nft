@@ -1,0 +1,51 @@
+table inet rp_pbr {
+ chain mark_w1 { ct mark set (ct mark & 0xff00ffff) | 0x00010000; return; }
+ chain mark_w2 { ct mark set (ct mark & 0xff00ffff) | 0x00020000; return; }
+ chain mark_w3 { ct mark set (ct mark & 0xff00ffff) | 0x00030000; return; }
+ chain mark_w4 { ct mark set (ct mark & 0xff00ffff) | 0x00040000; return; }
+ chain mark_w5 { ct mark set (ct mark & 0xff00ffff) | 0x00050000; return; }
+ map buckets { type mark : verdict; elements = { 0 : jump mark_w1, 1 : jump mark_w2, 2 : jump mark_w3, 3 : jump mark_w4, 4 : jump mark_w5, 5 : jump mark_w1, 6 : jump mark_w2, 7 : jump mark_w3, 8 : jump mark_w4, 9 : jump mark_w5, 10 : jump mark_w1, 11 : jump mark_w2, 12 : jump mark_w3, 13 : jump mark_w4, 14 : jump mark_w5, 15 : jump mark_w1, 16 : jump mark_w2, 17 : jump mark_w3, 18 : jump mark_w4, 19 : jump mark_w5, 20 : jump mark_w1, 21 : jump mark_w2, 22 : jump mark_w3, 23 : jump mark_w4, 24 : jump mark_w5, 25 : jump mark_w1, 26 : jump mark_w2, 27 : jump mark_w3, 28 : jump mark_w4, 29 : jump mark_w5, 30 : jump mark_w1, 31 : jump mark_w2, 32 : jump mark_w3, 33 : jump mark_w4, 34 : jump mark_w5, 35 : jump mark_w1, 36 : jump mark_w2, 37 : jump mark_w3, 38 : jump mark_w4, 39 : jump mark_w5, 40 : jump mark_w1, 41 : jump mark_w2, 42 : jump mark_w3, 43 : jump mark_w4, 44 : jump mark_w5, 45 : jump mark_w1, 46 : jump mark_w2, 47 : jump mark_w3, 48 : jump mark_w4, 49 : jump mark_w5, 50 : jump mark_w1, 51 : jump mark_w2, 52 : jump mark_w3, 53 : jump mark_w4, 54 : jump mark_w5, 55 : jump mark_w1, 56 : jump mark_w2, 57 : jump mark_w3, 58 : jump mark_w4, 59 : jump mark_w5, 60 : jump mark_w1, 61 : jump mark_w2, 62 : jump mark_w3, 63 : jump mark_w4, 64 : jump mark_w5, 65 : jump mark_w1, 66 : jump mark_w2, 67 : jump mark_w3, 68 : jump mark_w4, 69 : jump mark_w5, 70 : jump mark_w1, 71 : jump mark_w2, 72 : jump mark_w3, 73 : jump mark_w4, 74 : jump mark_w5, 75 : jump mark_w1, 76 : jump mark_w2, 77 : jump mark_w3, 78 : jump mark_w4, 79 : jump mark_w5, 80 : jump mark_w1, 81 : jump mark_w2, 82 : jump mark_w3, 83 : jump mark_w4, 84 : jump mark_w5, 85 : jump mark_w1, 86 : jump mark_w2, 87 : jump mark_w3, 88 : jump mark_w4, 89 : jump mark_w5, 90 : jump mark_w1, 91 : jump mark_w2, 92 : jump mark_w3, 93 : jump mark_w4, 94 : jump mark_w5, 95 : jump mark_w1, 96 : jump mark_w2, 97 : jump mark_w3, 98 : jump mark_w4, 99 : jump mark_w5, 100 : jump mark_w1, 101 : jump mark_w2, 102 : jump mark_w3, 103 : jump mark_w4, 104 : jump mark_w5, 105 : jump mark_w1, 106 : jump mark_w2, 107 : jump mark_w3, 108 : jump mark_w4, 109 : jump mark_w5, 110 : jump mark_w1, 111 : jump mark_w2, 112 : jump mark_w3, 113 : jump mark_w4, 114 : jump mark_w5, 115 : jump mark_w1, 116 : jump mark_w2, 117 : jump mark_w3, 118 : jump mark_w4, 119 : jump mark_w5, 120 : jump mark_w1, 121 : jump mark_w2, 122 : jump mark_w3, 123 : jump mark_w4, 124 : jump mark_w5, 125 : jump mark_w1, 126 : jump mark_w2, 127 : jump mark_w3, 128 : jump mark_w4, 129 : jump mark_w5, 130 : jump mark_w1, 131 : jump mark_w2, 132 : jump mark_w3, 133 : jump mark_w4, 134 : jump mark_w5, 135 : jump mark_w1, 136 : jump mark_w2, 137 : jump mark_w3, 138 : jump mark_w4, 139 : jump mark_w5, 140 : jump mark_w1, 141 : jump mark_w2, 142 : jump mark_w3, 143 : jump mark_w4, 144 : jump mark_w5, 145 : jump mark_w1, 146 : jump mark_w2, 147 : jump mark_w3, 148 : jump mark_w4, 149 : jump mark_w5, 150 : jump mark_w1, 151 : jump mark_w2, 152 : jump mark_w3, 153 : jump mark_w4, 154 : jump mark_w5, 155 : jump mark_w1, 156 : jump mark_w2, 157 : jump mark_w3, 158 : jump mark_w4, 159 : jump mark_w5, 160 : jump mark_w1, 161 : jump mark_w2, 162 : jump mark_w3, 163 : jump mark_w4, 164 : jump mark_w5, 165 : jump mark_w1, 166 : jump mark_w2, 167 : jump mark_w3, 168 : jump mark_w4, 169 : jump mark_w5, 170 : jump mark_w1, 171 : jump mark_w2, 172 : jump mark_w3, 173 : jump mark_w4, 174 : jump mark_w5, 175 : jump mark_w1, 176 : jump mark_w2, 177 : jump mark_w3, 178 : jump mark_w4, 179 : jump mark_w5, 180 : jump mark_w1, 181 : jump mark_w2, 182 : jump mark_w3, 183 : jump mark_w4, 184 : jump mark_w5, 185 : jump mark_w1, 186 : jump mark_w2, 187 : jump mark_w3, 188 : jump mark_w4, 189 : jump mark_w5, 190 : jump mark_w1, 191 : jump mark_w2, 192 : jump mark_w3, 193 : jump mark_w4, 194 : jump mark_w5, 195 : jump mark_w1, 196 : jump mark_w2, 197 : jump mark_w3, 198 : jump mark_w4, 199 : jump mark_w5, 200 : jump mark_w1, 201 : jump mark_w2, 202 : jump mark_w3, 203 : jump mark_w4, 204 : jump mark_w5, 205 : jump mark_w1, 206 : jump mark_w2, 207 : jump mark_w3, 208 : jump mark_w4, 209 : jump mark_w5, 210 : jump mark_w1, 211 : jump mark_w2, 212 : jump mark_w3, 213 : jump mark_w4, 214 : jump mark_w5, 215 : jump mark_w1, 216 : jump mark_w2, 217 : jump mark_w3, 218 : jump mark_w4, 219 : jump mark_w5, 220 : jump mark_w1, 221 : jump mark_w2, 222 : jump mark_w3, 223 : jump mark_w4, 224 : jump mark_w5, 225 : jump mark_w1, 226 : jump mark_w2, 227 : jump mark_w3, 228 : jump mark_w4, 229 : jump mark_w5, 230 : jump mark_w1, 231 : jump mark_w2, 232 : jump mark_w3, 233 : jump mark_w4, 234 : jump mark_w5, 235 : jump mark_w1, 236 : jump mark_w2, 237 : jump mark_w3, 238 : jump mark_w4, 239 : jump mark_w5, 240 : jump mark_w1, 241 : jump mark_w2, 242 : jump mark_w3, 243 : jump mark_w4, 244 : jump mark_w5, 245 : jump mark_w1, 246 : jump mark_w2, 247 : jump mark_w3, 248 : jump mark_w4, 249 : jump mark_w5, 250 : jump mark_w1, 251 : jump mark_w2, 252 : jump mark_w3, 253 : jump mark_w4, 254 : jump mark_w5, 255 : jump mark_w1, 256 : jump mark_w2, 257 : jump mark_w3, 258 : jump mark_w4, 259 : jump mark_w5, 260 : jump mark_w1, 261 : jump mark_w2, 262 : jump mark_w3, 263 : jump mark_w4, 264 : jump mark_w5, 265 : jump mark_w1, 266 : jump mark_w2, 267 : jump mark_w3, 268 : jump mark_w4, 269 : jump mark_w5, 270 : jump mark_w1, 271 : jump mark_w2, 272 : jump mark_w3, 273 : jump mark_w4, 274 : jump mark_w5, 275 : jump mark_w1, 276 : jump mark_w2, 277 : jump mark_w3, 278 : jump mark_w4, 279 : jump mark_w5, 280 : jump mark_w1, 281 : jump mark_w2, 282 : jump mark_w3, 283 : jump mark_w4, 284 : jump mark_w5, 285 : jump mark_w1, 286 : jump mark_w2, 287 : jump mark_w3, 288 : jump mark_w4, 289 : jump mark_w5, 290 : jump mark_w1, 291 : jump mark_w2, 292 : jump mark_w3, 293 : jump mark_w4, 294 : jump mark_w5, 295 : jump mark_w1, 296 : jump mark_w2, 297 : jump mark_w3, 298 : jump mark_w4, 299 : jump mark_w5 }; }
+ set healthy { type mark; elements = { 0x00010000, 0x00020000, 0x00030000, 0x00040000, 0x00050000 }; }
+ set bulk4 { type ipv4_addr; flags interval; }
+ set bulk_dns4 { type ipv4_addr; flags timeout; timeout 6h; size 4096; }
+ set sticky_w1 { type ipv4_addr . ipv4_addr; flags dynamic,timeout; timeout 30m; size 16384; }
+ set sticky_w2 { type ipv4_addr . ipv4_addr; flags dynamic,timeout; timeout 30m; size 16384; }
+ set sticky_w3 { type ipv4_addr . ipv4_addr; flags dynamic,timeout; timeout 30m; size 16384; }
+ set sticky_w4 { type ipv4_addr . ipv4_addr; flags dynamic,timeout; timeout 30m; size 16384; }
+ set sticky_w5 { type ipv4_addr . ipv4_addr; flags dynamic,timeout; timeout 30m; size 16384; }
+ chain bulk { numgen random mod 300 vmap @buckets; }
+ chain choose {
+  ct mark & 0x00ff0000 == 0 numgen random mod 300 vmap @buckets comment "rp-equal-per-connection"
+ }
+ chain from_lan {
+  type filter hook prerouting priority -160; policy accept;
+  meta nfproto != ipv4 return
+  iifname != "br-lan" return
+  ip daddr { 192.168.50.0/24, 224.0.0.0/4, 255.255.255.255 } return
+  fib daddr type local return
+  ct state new ct mark & 0x00ff0000 == 0 jump choose
+  ct state new ct mark & 0x00ff0000 == 0 counter reject with icmp type net-unreachable
+  ct mark & 0x00ff0000 != 0 meta mark set (meta mark & 0xff00ffff) | (ct mark & 0x00ff0000)
+ }
+ chain local_output {
+  type route hook output priority -160; policy accept;
+  meta nfproto != ipv4 return
+  ip daddr { 127.0.0.0/8, 192.168.50.0/24, 224.0.0.0/4, 255.255.255.255 } return
+  fib daddr type local return
+  ct mark & 0x00ff0000 != 0 meta mark set (meta mark & 0xff00ffff) | (ct mark & 0x00ff0000) return
+  ct state new meta mark & 0x00ff0000 != 0 ct mark set (ct mark & 0xff00ffff) | (meta mark & 0x00ff0000) return
+  ct state new oifname "rpwan1" ct mark set (ct mark & 0xff00ffff) | 0x00010000
+  ct state new oifname "rpwan2" ct mark set (ct mark & 0xff00ffff) | 0x00020000
+  ct state new oifname "rpwan3" ct mark set (ct mark & 0xff00ffff) | 0x00030000
+  ct state new oifname "rpwan4" ct mark set (ct mark & 0xff00ffff) | 0x00040000
+  ct state new oifname "rpwan5" ct mark set (ct mark & 0xff00ffff) | 0x00050000
+ }
+ chain forwarding_counters {
+  type filter hook forward priority -5; policy accept;
+  iifname "br-lan" oifname "rpwan1" ct mark & 0x00ff0000 == 0x00010000 counter comment "WAN1 marked LAN egress"
+  iifname "br-lan" oifname "rpwan2" ct mark & 0x00ff0000 == 0x00020000 counter comment "WAN2 marked LAN egress"
+  iifname "br-lan" oifname "rpwan3" ct mark & 0x00ff0000 == 0x00030000 counter comment "WAN3 marked LAN egress"
+  iifname "br-lan" oifname "rpwan4" ct mark & 0x00ff0000 == 0x00040000 counter comment "WAN4 marked LAN egress"
+  iifname "br-lan" oifname "rpwan5" ct mark & 0x00ff0000 == 0x00050000 counter comment "WAN5 marked LAN egress"
+ }
+}

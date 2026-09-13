@@ -1,0 +1,39 @@
+#!/bin/sh /etc/rc.common
+START=96
+STOP=20
+USE_PROCD=1
+EXTRA_COMMANDS="line_start line_stop"
+EXTRA_HELP="line_start N: enable only WAN N; line_stop N: stop only WAN N"
+add_line() {
+ local n="$1"
+ [ -f "/root/router-project/policy/wan$n.enabled" ] || return 0
+ [ -s "/etc/minieap/wan$n.conf" ] || return 0
+ procd_open_instance "wan$n"
+ procd_set_param command /bin/sh /root/router-project/scripts/minieap-run.sh "$n"
+ procd_set_param respawn 3600 60 0
+ procd_set_param term_timeout 10
+ procd_set_param file "/etc/minieap/wan$n.conf"
+ procd_close_instance
+}
+start_service() {
+ /root/router-project/scripts/prepare-macvlans.sh || return 1
+ for n in 1 2 3 4 5; do add_line "$n"; done
+}
+line_start() {
+ local n="$1"
+ case "$n" in 1|2|3|4|5);; *) return 2;; esac
+ [ -s "/etc/minieap/wan$n.conf" ] || return 3
+ touch "/root/router-project/policy/wan$n.enabled"
+ # service add updates only this named instance; it does not replace the service set.
+ . /lib/functions/procd.sh
+ procd_open_service router-project-minieap /etc/init.d/router-project-minieap
+ add_line "$n"
+ procd_close_service add
+}
+line_stop() {
+ local n="$1"
+ case "$n" in 1|2|3|4|5);; *) return 2;; esac
+ rm -f "/root/router-project/policy/wan$n.enabled"
+ ubus call service delete "{\"name\":\"router-project-minieap\",\"instance\":\"wan$n\"}"
+ ubus call "network.interface.wan$n" down 2>/dev/null || true
+}
