@@ -20,7 +20,7 @@ function walk(dir) {
     if (
       /-----BEGIN [A-Z ]*PRIVATE KEY-----/.test(s) ||
       /\bgh[pousr]_[A-Za-z0-9]{20,}\b|github_pat_[A-Za-z0-9_]{20,}/.test(s) ||
-      /vless:\/\/|ss:\/\/|vmess:\/\//.test(s)
+      /(?:vless|ss|vmess|hy2|hysteria2|anytls):\/\//.test(s)
     )
       errors.push(rel + ": possible secret");
     if (/[A-Z]:[\\/]Users[\\/]/.test(s) || /ssh-(?:ed25519|rsa) A{4}/.test(s))

@@ -136,19 +136,19 @@
       "tag": "SG-IPv4-Reality@dns",
       "server": "198.51.100.10",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan1",
@@ -159,19 +159,19 @@
       "tag": "SG-IPv4-Reality@wan1",
       "server": "198.51.100.10",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan1",
@@ -182,19 +182,19 @@
       "tag": "SG-IPv4-Reality@wan2",
       "server": "198.51.100.10",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan2",
@@ -205,19 +205,19 @@
       "tag": "SG-IPv4-Reality@wan3",
       "server": "198.51.100.10",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan3",
@@ -228,19 +228,19 @@
       "tag": "SG-IPv4-Reality@wan4",
       "server": "198.51.100.10",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan4",
@@ -251,19 +251,19 @@
       "tag": "SG-IPv4-Reality@wan5",
       "server": "198.51.100.10",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan5",
@@ -274,19 +274,19 @@
       "tag": "US-West-IPv4-Reality@dns",
       "server": "198.51.100.11",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan1",
@@ -297,19 +297,19 @@
       "tag": "US-West-IPv4-Reality@wan1",
       "server": "198.51.100.11",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan1",
@@ -320,19 +320,19 @@
       "tag": "US-West-IPv4-Reality@wan2",
       "server": "198.51.100.11",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan2",
@@ -343,19 +343,19 @@
       "tag": "US-West-IPv4-Reality@wan3",
       "server": "198.51.100.11",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan3",
@@ -366,19 +366,19 @@
       "tag": "US-West-IPv4-Reality@wan4",
       "server": "198.51.100.11",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan4",
@@ -389,19 +389,19 @@
       "tag": "US-West-IPv4-Reality@wan5",
       "server": "198.51.100.11",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan5",
@@ -412,19 +412,19 @@
       "tag": "US-Central-IPv4-Reality@dns",
       "server": "198.51.100.12",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan1",
@@ -435,19 +435,19 @@
       "tag": "US-Central-IPv4-Reality@wan1",
       "server": "198.51.100.12",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan1",
@@ -458,19 +458,19 @@
       "tag": "US-Central-IPv4-Reality@wan2",
       "server": "198.51.100.12",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan2",
@@ -481,19 +481,19 @@
       "tag": "US-Central-IPv4-Reality@wan3",
       "server": "198.51.100.12",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan3",
@@ -504,19 +504,19 @@
       "tag": "US-Central-IPv4-Reality@wan4",
       "server": "198.51.100.12",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
       },
       "bind_interface": "rpwan4",
@@ -527,20 +527,96 @@
       "tag": "US-Central-IPv4-Reality@wan5",
       "server": "198.51.100.12",
       "server_port": 443,
-      "uuid": "REPLACE_WITH_PRIVATE_UUID",
+      "uuid": "00000000-0000-4000-8000-000000000001",
       "flow": "xtls-rprx-vision",
       "tls": {
         "enabled": true,
-        "server_name": "REPLACE_WITH_REALITY_SERVER_NAME",
+        "server_name": "reality.example.com",
         "utls": {
           "enabled": true,
           "fingerprint": "chrome"
         },
         "reality": {
           "enabled": true,
-          "public_key": "REPLACE_WITH_REALITY_PUBLIC_KEY",
-          "short_id": "REPLACE_WITH_SHORT_ID"
+          "public_key": "zYotiTZEEvG-6id4dNg8BIxgZ-ruPGAXQz_YYy8Gh0E",
+          "short_id": "0000000000000000"
         }
+      },
+      "bind_interface": "rpwan5",
+      "routing_mark": 327680
+    },
+    {
+      "type": "hysteria2",
+      "tag": "SG-HY2@dns",
+      "server": "203.0.113.20",
+      "server_port": 443,
+      "password": "REPLACE_WITH_HYSTERIA2_PASSWORD",
+      "tls": {
+        "enabled": true,
+        "server_name": "hy2.example.com"
+      }
+    },
+    {
+      "type": "hysteria2",
+      "tag": "SG-HY2@wan1",
+      "server": "203.0.113.20",
+      "server_port": 443,
+      "password": "REPLACE_WITH_HYSTERIA2_PASSWORD",
+      "tls": {
+        "enabled": true,
+        "server_name": "hy2.example.com"
+      },
+      "bind_interface": "rpwan1",
+      "routing_mark": 65536
+    },
+    {
+      "type": "hysteria2",
+      "tag": "SG-HY2@wan2",
+      "server": "203.0.113.20",
+      "server_port": 443,
+      "password": "REPLACE_WITH_HYSTERIA2_PASSWORD",
+      "tls": {
+        "enabled": true,
+        "server_name": "hy2.example.com"
+      },
+      "bind_interface": "rpwan2",
+      "routing_mark": 131072
+    },
+    {
+      "type": "hysteria2",
+      "tag": "SG-HY2@wan3",
+      "server": "203.0.113.20",
+      "server_port": 443,
+      "password": "REPLACE_WITH_HYSTERIA2_PASSWORD",
+      "tls": {
+        "enabled": true,
+        "server_name": "hy2.example.com"
+      },
+      "bind_interface": "rpwan3",
+      "routing_mark": 196608
+    },
+    {
+      "type": "hysteria2",
+      "tag": "SG-HY2@wan4",
+      "server": "203.0.113.20",
+      "server_port": 443,
+      "password": "REPLACE_WITH_HYSTERIA2_PASSWORD",
+      "tls": {
+        "enabled": true,
+        "server_name": "hy2.example.com"
+      },
+      "bind_interface": "rpwan4",
+      "routing_mark": 262144
+    },
+    {
+      "type": "hysteria2",
+      "tag": "SG-HY2@wan5",
+      "server": "203.0.113.20",
+      "server_port": 443,
+      "password": "REPLACE_WITH_HYSTERIA2_PASSWORD",
+      "tls": {
+        "enabled": true,
+        "server_name": "hy2.example.com"
       },
       "bind_interface": "rpwan5",
       "routing_mark": 327680
@@ -549,66 +625,72 @@
       "type": "selector",
       "tag": "proxy-wan1",
       "outbounds": [
+        "SG-HY2@wan1",
         "SG-IPv4-Reality@wan1",
         "US-West-IPv4-Reality@wan1",
         "US-Central-IPv4-Reality@wan1"
       ],
-      "default": "SG-IPv4-Reality@wan1",
+      "default": "SG-HY2@wan1",
       "interrupt_exist_connections": false
     },
     {
       "type": "selector",
       "tag": "proxy-wan2",
       "outbounds": [
+        "SG-HY2@wan2",
         "SG-IPv4-Reality@wan2",
         "US-West-IPv4-Reality@wan2",
         "US-Central-IPv4-Reality@wan2"
       ],
-      "default": "SG-IPv4-Reality@wan2",
+      "default": "SG-HY2@wan2",
       "interrupt_exist_connections": false
     },
     {
       "type": "selector",
       "tag": "proxy-wan3",
       "outbounds": [
+        "SG-HY2@wan3",
         "SG-IPv4-Reality@wan3",
         "US-West-IPv4-Reality@wan3",
         "US-Central-IPv4-Reality@wan3"
       ],
-      "default": "SG-IPv4-Reality@wan3",
+      "default": "SG-HY2@wan3",
       "interrupt_exist_connections": false
     },
     {
       "type": "selector",
       "tag": "proxy-wan4",
       "outbounds": [
+        "SG-HY2@wan4",
         "SG-IPv4-Reality@wan4",
         "US-West-IPv4-Reality@wan4",
         "US-Central-IPv4-Reality@wan4"
       ],
-      "default": "SG-IPv4-Reality@wan4",
+      "default": "SG-HY2@wan4",
       "interrupt_exist_connections": false
     },
     {
       "type": "selector",
       "tag": "proxy-wan5",
       "outbounds": [
+        "SG-HY2@wan5",
         "SG-IPv4-Reality@wan5",
         "US-West-IPv4-Reality@wan5",
         "US-Central-IPv4-Reality@wan5"
       ],
-      "default": "SG-IPv4-Reality@wan5",
+      "default": "SG-HY2@wan5",
       "interrupt_exist_connections": false
     },
     {
       "type": "selector",
       "tag": "proxy-dns",
       "outbounds": [
+        "SG-HY2@dns",
         "SG-IPv4-Reality@dns",
         "US-West-IPv4-Reality@dns",
         "US-Central-IPv4-Reality@dns"
       ],
-      "default": "SG-IPv4-Reality@dns"
+      "default": "SG-HY2@dns"
     }
   ],
   "route": {

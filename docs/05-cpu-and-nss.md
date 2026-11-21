@@ -2,7 +2,13 @@
 
 环境为四核 RE-CS-02；以下掩码依赖实际核心数与队列布局。
 
-## RPS 对照
+## 当前转发
+
+2026-11-21 回读确认，`athena-bulk-forward` 运行，FW4 的通用软、硬件卸载开关均关闭。ECM 前端 IPv4/IPv6 停机标志均为 1，NSS 转发控制器未运行。网页流量由专用软件流表选择性卸载。[转发准入与队列](11-athena-runtime.md)
+
+2026 年 11 月的受控测试曾确认 NSS 为部分连接转发。真实 Steam 负载下，逐连接规则提交超过控制器时限并触发软件回退，因此现网采用软件路径。下列 9 月对照使用的是此前的配置。
+
+## 2026 年 9 月 RPS 对照
 
 A 的物理 WAN RPS 为 `f`，B 改为 `e`，将协议处理分给 CPU1–3。两者保持 LAN4=`f`、XPS=`1/2/4/8`、MacVLAN RPS=0，IRQ 亲和性不变。
 
@@ -21,11 +27,11 @@ B 的腾讯 DNS 探测 440 次零超时；P95/P99 相对各自 A 最大增加 3.
 
 移植时检查真实队列，避免物理接口、MacVLAN、IFB 多层重复分流。`softnet time_squeeze` 记录处理预算耗尽，不是丢包数量。参考 [Linux scaling](https://docs.kernel.org/networking/scaling.html)。
 
-## NSS 实验
+## 2026 年 9 月 NSS 实验
 
-NSS firmware 为 `NSS.FW.12.5-210-CP.R`，driver/ECM 13.1 已加载，但五路流量未进入加速路径：
+NSS firmware 为 `NSS.FW.12.5-210-CP.R`，driver/ECM 13.1 已加载，但该轮五路流量未进入加速路径：
 
-- 当前 MacVLAN 使用 bridge 模式；匹配 ECM 源码的加速路径仅接受 private 模式。
+- 当时 MacVLAN 使用 bridge 模式；匹配 ECM 源码的加速路径仅接受 private 模式。
 - ingress → 普通 IFB → 软件 CAKE 受到 ECM ingress 保护。
 - 已安装 NSS qdisc 不含 CAKE 实现。
 

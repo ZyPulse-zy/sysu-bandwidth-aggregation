@@ -2,7 +2,11 @@
 
 依次检查客户端限速与磁盘、下载连接的实际路径、CDN 与连接数、每 WAN 吞吐和 CAKE 速率，最后看逐核 CPU。客户端、网卡和路由器的统计窗口不同，应在相近时间段比较。
 
-## 350 Mbps 是否被 base 限制
+## 当前路径
+
+Steam 内容下载只使用 WAN1–5。符合条件的直连 IPv4 TCP 80/443 进入软件流表，WAN6 保留给游戏。检查实际出口、mark、软件流表和入站限速器计数，再判断慢在连接分布、CDN、线路还是 CPU。下载期间既要看物理 WAN 速率，也要看 Steam 套接字有效速率。[转发路径](11-athena-runtime.md) · [对照数据](../evidence/README.md)
+
+## 2026 年 9 月的 350 Mbps 样本
 
 一次约 350 Mbps 的下载中，五路 CAKE 已升到约 100 Mbps，CPU0 softirq 较高。下载 base=70 Mbps 并未将总速率锁在 350 Mbps；后续 [RPS 对照](05-cpu-and-nss.md)降低了 CPU0 压力。
 

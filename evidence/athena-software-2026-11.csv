@@ -1,0 +1,6 @@
+measurement,date,download_mbps,download_basis,cpu_median_pct,udp_wired_received,udp_wired_sent,udp_wifi_received,udp_wifi_sent
+steam-five-wan-flowtable,2026-11-18,443.7,physical-wan-rx-median,60.1,,,,
+steam-five-wan-flowtable,2026-11-18,404.5,steam-socket-goodput-median,,,,,
+wan6-dedicated-under-download,2026-11-18,439.3,physical-wan-rx-median,,6934,6934,3477,3477
+wan5-failover-under-download,2026-11-19,260.362,physical-wan-rx-median,,2038,2038,,
+wifi-btm-production,2026-11-19,448.9,phone-single-tcp-goodput,,,,3070,3070

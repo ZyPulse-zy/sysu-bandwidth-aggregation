@@ -17,11 +17,11 @@ add_line() {
 }
 start_service() {
  /root/router-project/scripts/prepare-macvlans.sh || return 1
- for n in 1 2 3 4 5; do add_line "$n"; done
+ for n in 1 2 3 4 5 6; do add_line "$n"; done
 }
 line_start() {
  local n="$1"
- case "$n" in 1|2|3|4|5);; *) return 2;; esac
+ case "$n" in 1|2|3|4|5|6);; *) return 2;; esac
  [ -s "/etc/minieap/wan$n.conf" ] || return 3
  touch "/root/router-project/policy/wan$n.enabled"
  # service add updates only this named instance; it does not replace the service set.
@@ -32,8 +32,10 @@ line_start() {
 }
 line_stop() {
  local n="$1"
- case "$n" in 1|2|3|4|5);; *) return 2;; esac
+ case "$n" in 1|2|3|4|5|6);; *) return 2;; esac
  rm -f "/root/router-project/policy/wan$n.enabled"
  ubus call service delete "{\"name\":\"router-project-minieap\",\"instance\":\"wan$n\"}"
- ubus call "network.interface.wan$n" down 2>/dev/null || true
+ local iface="wan$n"
+ [ "$n" != 6 ] || iface=campus6
+ ubus call "network.interface.$iface" down 2>/dev/null || true
 }

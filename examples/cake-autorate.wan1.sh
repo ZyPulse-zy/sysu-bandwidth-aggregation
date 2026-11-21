@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 dl_if=rpifb1
 ul_if=rpwan1
-min_dl_shaper_rate_kbps=20000
+min_dl_shaper_rate_kbps=70000
 base_dl_shaper_rate_kbps=70000
-max_dl_shaper_rate_kbps=100000
-min_ul_shaper_rate_kbps=15000
+max_dl_shaper_rate_kbps=70000
+min_ul_shaper_rate_kbps=40000
 base_ul_shaper_rate_kbps=40000
-max_ul_shaper_rate_kbps=60000
+max_ul_shaper_rate_kbps=40000
 ping_extra_args="-I rpwan1"
 reflectors=("223.5.5.5" "119.29.29.29" "180.76.76.76")
 randomize_reflectors=0

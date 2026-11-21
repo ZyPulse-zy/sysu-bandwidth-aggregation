@@ -1,0 +1,7 @@
+add chain inet rp_pbr mark_w6
+add rule inet rp_pbr mark_w6 ct mark set (ct mark & 0xff00ffff) | 0x00060000 return
+add rule inet rp_pbr local_output ct state new ct mark & 0x00ff0000 == 0 oifname "rpwan6" ct mark set (ct mark & 0xff00ffff) | 0x00060000 comment "athena-wan6-local-output"
+add rule inet rp_pbr forwarding_counters iifname "br-lan" oifname "rpwan6" ct mark & 0x00ff0000 == 0x00060000 counter comment "athena-wan6-lan-egress"
+add rule inet fw4 srcnat oifname "rpwan6" jump srcnat_wan comment "athena-wan6-srcnat"
+add rule inet fw4 accept_to_wan meta nfproto ipv4 oifname "rpwan6" ct state invalid drop comment "athena-wan6-nat-leak"
+add rule inet fw4 accept_to_wan oifname "rpwan6" accept comment "athena-wan6-forward"

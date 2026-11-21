@@ -249,7 +249,7 @@
     <span class="badge">离线编辑 · 候选配置</span>
     <h1>为每个网站生成出口策略。</h1>
     <p class="intro">
-      选择网站使用的节点，生成五路 WAN 配置。文件保存在本机，不会自动部署。
+      为网站选择节点，生成 WAN1–5 的代理配置。WAN6 留给游戏。
     </p>
     <div class="bar">
       <small id="revision">正在读取本机候选…</small>
@@ -313,6 +313,7 @@
       "US-West-IPv4-Reality": "美国西部 · 示例节点",
       "US-Central-IPv4-Reality": "美国中部 · 示例节点",
       "SG-IPv4-Reality": "新加坡 · 示例节点",
+      "SG-HY2": "新加坡 · Hysteria2 示例节点",
       DIRECT: "直连",
     };
     function renderBuiltins() {
@@ -434,7 +435,7 @@
         row.append(name, s, del);
         custom.append(row);
       });
-      const sel = optionSelect("SG-IPv4-Reality", () => {});
+      const sel = optionSelect(draft.selected.other, () => {});
       sel.id = "newnode";
       sel.setAttribute("aria-label", "新规则出口");
       $("#newnode").replaceWith(sel);

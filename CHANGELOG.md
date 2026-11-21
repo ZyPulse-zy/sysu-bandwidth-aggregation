@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- 按 Athena 现网更新六路认证、WAN6 游戏专线、软件流表、CAKE 和原生 IPv6 的参考脚本与部署说明。
+- 收录游戏回退、Steam 下载和 802.11v 引导的脱敏实测汇总，并补充只读检查脚本。
+- 网站分流面板支持导入基础配置及现网出口分组，示例增加 Hysteria2。
+
 ## 0.1.1 — 2026-09-13
 
 - 更名为 SYSU Bandwidth Aggregation。

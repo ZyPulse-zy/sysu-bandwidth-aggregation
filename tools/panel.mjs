@@ -2,25 +2,18 @@ import fs from "node:fs";
 import path from "node:path";
 import http from "node:http";
 import { fileURLToPath } from "node:url";
-import { generate } from "./generate.mjs";
-import { builtin, nodes, validate } from "../lib/site-config.mjs";
+import { generate, loadBase } from "./generate.mjs";
+import { builtin, initial, nodes, validate } from "../lib/site-config.mjs";
 const root = fileURLToPath(new URL("..", import.meta.url)),
   port = Number(process.env.ATHENA_PANEL_PORT || 17872);
 if (!Number.isInteger(port) || port < 1024 || port > 65535)
   throw Error("Invalid panel port");
 const origin = "http://127.0.0.1:" + port;
-const base = JSON.parse(
-  fs.readFileSync(path.join(root, "examples/singbox-base.example.json")),
-);
-const stateFile = path.join(root, "local/site-state.json");
-let state = JSON.parse(
-    fs.readFileSync(
-      fs.existsSync(stateFile)
-        ? stateFile
-        : path.join(root, "examples/site-state.example.json"),
-    ),
-  ),
-  busy = false;
+const base = loadBase(process.argv[2], process.argv[4]);
+const saved = path.join(root, "local/site-state.json");
+const stateFile = process.argv[3] || (fs.existsSync(saved) ? saved : null);
+let state = stateFile ? JSON.parse(fs.readFileSync(stateFile)) : initial(base);
+let busy = false;
 const server = http.createServer(async (req, res) => {
   const json = (v, status = 200) => {
     res.writeHead(status, {

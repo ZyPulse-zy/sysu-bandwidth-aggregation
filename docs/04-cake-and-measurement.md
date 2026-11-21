@@ -1,38 +1,21 @@
 # CAKE 参数与测速
 
-参考配置使用每路上传 CAKE、下载 IFB+CAKE，共十个队列。
+Athena 为六路各保留上行 CAKE 和下行 IFB + CAKE。2026-11-21 回读的常规配置如下。
 
-| 方向 | min | base | max |
-| --- | ---: | ---: | ---: |
-| 下载 | 20 Mbps | 70 Mbps | 100 Mbps |
-| 上传 | 15 Mbps | 40 Mbps | 60 Mbps |
+| 方向 | 设备 | min / base / max | 模式 |
+| --- | --- | --- | --- |
+| 上传 | `rpwan1`–`rpwan6` | 40 / 40 / 40 Mbps | `diffserv4 dual-srchost nat` |
+| 下载 | `rpifb1`–`rpifb6` | 70 / 70 / 70 Mbps | `diffserv4 dual-dsthost nat ingress`，WAN5 使用 `flows nonat` |
+| 游戏备用线下载 | `agameifbN` | 固定 35 Mbps | 游戏活动期间按需导流，使用独立 CAKE |
 
-autorate 增长系数为 1.02。上传使用 `dual-srchost nat`，下载使用 `dual-dsthost nat ingress`；其余为 `besteffort overhead 38 mpu 84`。封装开销需按实际链路调整。示例见 [cake-autorate.wan1.sh](../examples/cake-autorate.wan1.sh)。
+封装开销取 `overhead 38 mpu 84`，移植时按实际链路调整。autorate 仍运行，三个速率参数相等。出厂初始化脚本可先为前五路建立 50 Mbps 下行队列，运行时以最终读取的 qdisc 为准。[WAN1 参数](../examples/cake-autorate.wan1.sh)
 
-这些参数是配置示例，不是账号容量测定值；五路上传 60 Mbps 同时满载的延迟余量尚未验证。
+WAN1–5 的无 IP 选项、未分片 IPv4 TCP 80/443 回包有独立的 ingress 放行规则，共享物理 WAN 上的 70 MiB/s 限速器。游戏备用线的 35 Mbps 重定向优先于网页下载放行。WAN6 继续使用双向 CAKE。资格、优先级和回退见 [Athena 运行策略](11-athena-runtime.md)。
 
-## 参数含义
+## 测试方法
 
-- **min**：拥塞时允许下降的最低速率。
-- **base**：低负载回归点，不是硬上限。
-- **max**：允许上探的最高速率。
+每次调整一个方向。使用同一服务器、协议、连接数和时长，记录应用有效速率、每 WAN 接收字节、CAKE/限速器计数、空载和满载 RTT 的 P50/P95/P99、探测超时以及逐核 CPU/softirq。校内、国内校外和跨境路径分开测量。测速源供给不足时，该轮只用于评估实际业务表现。
 
-Steam 约 350 Mbps 时，五路 CAKE 已升到 99.2–99.7 Mbps，接口接收合计约 376.5 Mbps，说明瓶颈并非下载 base 的 70×5。`high_load_thr=0.75` 同样是升速判据，不是 75% 限速。
+2026 年 9 月曾试过下行 20/70/100、上行 15/40/60 Mbps 的动态范围。那时 Steam 约 350 Mbps，五路下行 CAKE 已升至 99.2–99.7 Mbps。查限速时应读实际 qdisc，动态配置里的 base 是低负载回归点。当前性能数据见 [测试数据](../evidence/README.md)。
 
-## 调整方法
-
-先下载、后上传，每次只改一个方向。用同一服务器、协议、连接数和时长比较固定整形与 autorate，记录：
-
-- 每 WAN 吞吐、CAKE 实际速率和丢包；
-- 空载/满载 RTT 的 P50/P95/P99、超时；
-- 每核 CPU/softirq、内存和温度。
-
-校内、国内校外、跨境路径分开统计。跨境固定 RTT 不算本地新增排队；测速源限流或供给不足的轮次不能用于判断账号上限。CAKE 主动丢包与探测超时也应分列。
-
-只有持续高负载下没有延迟退让、却起速过慢时，才增加 autorate 增长系数。本案例 1.02 相比 1.01 通过三组匹配对照。核心持续饱和、认证掉线或多个独立探测目标同步恶化时，应退回上一档。
-
-## 模块
-
-CAKE 模块必须匹配内核 ABI。本案例在 Linux 6.18.44 上从对应源码构建 `sch_cake.ko`；升级固件后需重新核对模块兼容性。
-
-参考：[cake-autorate](https://github.com/lynxthecat/cake-autorate)、[CAKE](https://www.bufferbloat.net/projects/codel/wiki/Cake/)、[测试摘要](../evidence/README.md)。
+CAKE 模块与内核 ABI 绑定，Athena 使用为 Linux 6.18.44 对应构建生成的 `sch_cake.ko`。升级前核对新的模块包、内核及安装路径。[cake-autorate](https://github.com/lynxthecat/cake-autorate) · [CAKE](https://www.bufferbloat.net/projects/codel/wiki/Cake/)

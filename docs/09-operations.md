@@ -16,7 +16,15 @@
 
 ## 日常检查
 
-重启后检查五路认证/DHCP、路由表和 mark、十个 CAKE、autorate、RPS/XPS、无线状态及实际请求。内核升级需重新核对 CAKE ABI 和无线驱动。
+重启后先检查六路认证、租约、路由表和十二个常规 CAKE 队列。下面的脚本只读，输出接口、mark 规则、桶数及 CAKE 速率：
+
+```sh
+ssh root@router 'sh -s' < reference/router/inspect-athena.sh
+```
+
+正常情况下 WAN1–5 各 60 桶，WAN6 为 0。故障和恢复期间按健康状态重新分桶。游戏资格看 `/tmp/router-project-health/wan6-game-control.json`，备用线看 `athena_game_fallback` 的活动集合与 `agameifbN` 实际过滤器。无线、代理和原生 IPv6 分别通过真实客户端请求核对。
+
+已部署这套服务的 Athena 可在维护窗口停止并禁用 `athena-bulk-forward`，回到常规 CAKE 转发。核对流表与下载放行规则已撤下，随后检查 WAN6 游戏、WAN1 IPv6 和代理服务。内核升级时重新核对 CAKE ABI 和无线驱动。
 
 单路故障只恢复对应实例。高频日志放 RAM 并轮转；需要跨重启保留的记录另行归档。
 

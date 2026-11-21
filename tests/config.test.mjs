@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { compile, validate, builtin, migrate } from "../lib/site-config.mjs";
+import { compile, validate, builtin, initial, migrate, withActiveSelectors } from "../lib/site-config.mjs";
 const base = JSON.parse(
     fs.readFileSync(
       new URL("../examples/singbox-base.example.json", import.meta.url),
@@ -73,6 +73,41 @@ test("unknown routing architecture is refused rather than truncated", () => {
   assert.throws(() => compile(b, state), /Unexpected existing route/);
   b.route.rules = b.route.rules.filter((r) => r.outbound !== "proxy-wan3");
   assert.throws(() => compile(b, state), /Five existing proxy/);
+});
+test("new settings use the base DNS preference across all five WANs", () => {
+  const settings = initial(base);
+  assert.deepEqual(settings, state);
+  const c = compile(base, settings);
+  for (let n = 1; n <= 5; n++) {
+    const selector = c.outbounds.find((o) => o.tag === "_site_other_w" + n);
+    assert.equal(selector.default, "SG-HY2@wan" + n);
+  }
+  assert(!c.outbounds.some((o) => o.tag.endsWith("@wan6")));
+
+  const incomplete = structuredClone(base);
+  incomplete.outbounds = incomplete.outbounds.filter((o) => o.tag !== "SG-HY2@wan5");
+  assert.throws(() => compile(incomplete, settings), /matching outbound for WAN5/);
+});
+test("existing grouped selections can be imported without copying generated routes", () => {
+  const active = compile(base, state);
+  const scopes = ["dns", "wan1", "wan2", "wan3", "wan4", "wan5"];
+  for (const scope of scopes) {
+    const tag = "preferred@" + scope;
+    const member = "SG-HY2@" + (scope === "dns" ? "wan2" : scope);
+    active.outbounds.push({ type: "selector", tag, outbounds: [member], default: member });
+    const fallback = active.outbounds.find((o) => o.tag === "proxy-" + scope);
+    fallback.outbounds.push(tag);
+    fallback.default = tag;
+  }
+  const imported = withActiveSelectors(base, active);
+  const selections = { ...state, selected: { ...state.selected, youtube: "preferred" } };
+  const candidate = compile(imported, selections);
+  assert.deepEqual(imported.route, base.route);
+  assert.equal(candidate.outbounds.find((o) => o.tag === "_site_youtube_w2").default, "preferred@wan2");
+  assert.equal(initial(imported).selected.youtube, "preferred");
+
+  active.outbounds.find((o) => o.tag === "preferred@wan2").outbounds.push("SG-HY2@wan1");
+  assert.throws(() => withActiveSelectors(base, active), /mismatched member/);
 });
 test("protected/invalid domains and unknown nodes are rejected", () => {
   for (const domain of [

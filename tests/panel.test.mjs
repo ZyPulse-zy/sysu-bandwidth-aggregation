@@ -2,10 +2,24 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { once } from "node:events";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import vm from "node:vm";
 test("offline panel validates origin/revision and saves only a candidate", async () => {
-  const p = spawn(process.execPath, ["tools/panel.mjs"], {
-    cwd: new URL("..", import.meta.url),
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "sysu-panel-"));
+  for (const name of ["lib", "tools", "web"]) {
+    fs.cpSync(new URL("../" + name, import.meta.url), path.join(dir, name), {
+      recursive: true,
+    });
+  }
+  const base = JSON.parse(
+    fs.readFileSync(new URL("../examples/singbox-base.example.json", import.meta.url)),
+  );
+  base.outbounds.find((o) => o.tag === "proxy-dns").default = "US-Central-IPv4-Reality@dns";
+  fs.writeFileSync(path.join(dir, "site-base.json"), JSON.stringify(base));
+  const p = spawn(process.execPath, ["tools/panel.mjs", "site-base.json"], {
+    cwd: dir,
     env: { ...process.env, ATHENA_PANEL_PORT: "17873" },
     windowsHide: true,
     stdio: ["ignore", "pipe", "pipe"],
@@ -26,6 +40,7 @@ test("offline panel validates origin/revision and saves only a candidate", async
       data = await r.json();
     assert.equal(data.catalog.length, 35);
     assert.equal(data.offline, true);
+    assert.equal(data.state.selected.youtube, "US-Central-IPv4-Reality");
     const html = await (await fetch(origin + "/")).text();
     assert(html.includes("离线编辑"));
     new vm.Script(html.match(/<script>([\s\S]*?)<\/script>/)[1]);
@@ -47,11 +62,11 @@ test("offline panel validates origin/revision and saves only a candidate", async
     assert.equal((await post(old)).status, 409);
     const fresh = await (await fetch(origin + "/site-api/state")).json();
     assert.equal(fresh.state.selected.youtube, "US-West-IPv4-Reality");
-    fresh.state.selected.youtube = old.selected.youtube;
-    assert.equal((await post(fresh.state)).status, 200);
+    assert(fs.existsSync(path.join(dir, "local/candidate.json")));
   } finally {
     clearTimeout(timer);
     p.kill("SIGTERM");
     await done;
+    fs.rmSync(dir, { recursive: true, force: true });
   }
 });
