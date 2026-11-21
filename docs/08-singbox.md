@@ -21,17 +21,23 @@ FakeIP 使用 `198.18.0.0/15` 并持久化缓存。IPv6 透明代理未纳入此
 
 分类来自固定版本的 MetaCubeX SRS。具体服务优先于平台大类，自定义域名优先于公共分类；校园和局域网域名受保护。未进入代理分类的请求默认直连。
 
-## 使用工具
+## 从示例生成并校验
 
-需要 Node.js 22+：
+在仓库根目录运行下列命令。生成候选需要 Node.js 22 或 24。下载规则需要 curl 7.71+，只检查配置时可用支持示例协议的 sing-box 1.14 系列核心。
 
 ```sh
-npm run panel       # 浏览器编辑网站与节点
-npm run generate    # 直接生成 local/candidate.json
-npm run rules       # 下载并校验固定版本 SRS
+npm run rules
+npm run generate -- --rules-dir local/rules examples/singbox-base.example.json examples/site-state.example.json
+sing-box check -c local/candidate.json
 ```
 
-面板监听本机回环地址，保存到 `local/`。已有基础配置时，先将它及站点选择文件通过私有渠道复制进 `local/`，再运行：
+`npm run rules` 下载 [规则清单](../rules/manifest.json) 中固定版本的 SRS，核对字节数和 SHA256。下载中断后可重新运行，已验证文件会被复用。若只想在浏览器中改选项，运行 `npm run panel`。要在保存时指向电脑上的 SRS，运行 `npm run panel -- --rules-dir local/rules`。
+
+示例节点的 IP 和凭据用于配置校验。规则路径使用 `--rules-dir` 解析出的绝对路径，因此在其他目录和平台应用前需要重新生成。指定目录时只改写清单内的本地二进制规则，其他规则沿用基础配置。
+
+## 导入已有配置
+
+将自己的节点写入 [基础配置示例](../examples/singbox-base.example.json) 的私有副本，或从路由器复制兼容的基础配置。输入和候选文件都放在 `local/`。使用下面的命令编辑或生成。
 
 ```sh
 npm run panel -- local/site-base.json local/router-site-state.json
@@ -42,16 +48,14 @@ npm run generate -- local/site-base.json local/router-site-state.json
 
 如果网站选择使用了运行配置中的节点组，还要将当前 `config.json` 的私有副本作为第三个参数，例如 `npm run panel -- local/site-base.json local/router-site-state.json local/router-config.json`。工具从第三个文件导入 DNS 和 WAN1–5 的出口 selector，继续以 `site-base.json` 的节点定义和路由为编译输入。请用同一时点的三个文件。
 
-输入文件：
-
-- [基础配置](../examples/singbox-base.example.json)：Hysteria2 为示例默认项，Reality 节点也可选择。需替换节点地址、凭据、校园 DNS 和实际接口。
-- [网站选择](../examples/site-state.example.json)：分类与节点对应关系。
-- [规则清单](../rules/manifest.json)：下载地址、固定提交与 SHA256。
-
 编译器要求基础配置包含五条 `tproxy-wanN → proxy-wanN` 路由，并保留其余规则。每个 `节点名@dns` 出站需有同名前缀的 `@wan1` 到 `@wan5` 出站，分别配置线路绑定。
 
-部署前将规则路径改为目标机路径，再用服务实际运行的二进制检查候选文件。此设备使用 `/usr/lib/sing-box-athena/sing-box check -c candidate.json`，系统 PATH 中另有一个构建。备份 DNS、配置和缓存后应用，并检查域名解析、实际出口、WAN mark 与 CAKE 计数。回退时同步恢复 dnsmasq 上游。[备份与恢复](09-operations.md)
+## 目标机复核
 
-VPS 端字段示例见 [vps-reality.example.json](../examples/vps-reality.example.json)，其中没有可用节点。
+替换节点、校园 DNS 和目标接口。生成时省略 `--rules-dir` 可沿用基础配置的规则路径，也可指定目标机的绝对规则目录。将已验证的规则文件和候选文件复制到目标机，再用服务实际运行的二进制检查。Athena 使用 `/usr/lib/sing-box-athena/sing-box check -c candidate.json`，系统 PATH 中另有一个构建。
+
+备份 DNS、配置和缓存后应用。检查域名解析、实际出口、WAN mark 与 CAKE 计数。回退时同步恢复 dnsmasq 上游。[备份与恢复](09-operations.md)
+
+VPS 上用 Xray 时，可参考 [Reality 服务端字段示例](../examples/vps-reality.example.json)。示例使用占位凭据。
 
 参考：[sing-box Hysteria2](https://sing-box.sagernet.org/configuration/outbound/hysteria2/)、[sing-box selector](https://sing-box.sagernet.org/configuration/outbound/selector/)、[MetaCubeX](https://github.com/MetaCubeX/meta-rules-dat)。

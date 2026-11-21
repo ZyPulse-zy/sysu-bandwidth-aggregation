@@ -74,6 +74,14 @@ test("unknown routing architecture is refused rather than truncated", () => {
   b.route.rules = b.route.rules.filter((r) => r.outbound !== "proxy-wan3");
   assert.throws(() => compile(b, state), /Five existing proxy/);
 });
+test("equivalent JSON ordering and a single inbound string are accepted", () => {
+  const b = structuredClone(base);
+  const i = b.route.rules.findIndex((r) => r.outbound === "proxy-wan3");
+  b.route.rules[i] = { outbound: "proxy-wan3", inbound: "tproxy-wan3", action: "route" };
+  const c = compile(b, state);
+  assert(c.route.rules.some((rule) =>
+    rule.inbound === "tproxy-wan3" && rule.outbound === "_site_other_w3"));
+});
 test("new settings use the base DNS preference across all five WANs", () => {
   const settings = initial(base);
   assert.deepEqual(settings, state);

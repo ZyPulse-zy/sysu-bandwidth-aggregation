@@ -8,7 +8,7 @@ import path from "node:path";
 import vm from "node:vm";
 test("offline panel validates origin/revision and saves only a candidate", async () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "sysu-panel-"));
-  for (const name of ["lib", "tools", "web"]) {
+  for (const name of ["lib", "rules", "tools", "web"]) {
     fs.cpSync(new URL("../" + name, import.meta.url), path.join(dir, name), {
       recursive: true,
     });
@@ -17,8 +17,14 @@ test("offline panel validates origin/revision and saves only a candidate", async
     fs.readFileSync(new URL("../examples/singbox-base.example.json", import.meta.url)),
   );
   base.outbounds.find((o) => o.tag === "proxy-dns").default = "US-Central-IPv4-Reality@dns";
+  base.route.rule_set.push({
+    tag: "custom-rule-store",
+    type: "local",
+    format: "binary",
+    path: "/srv/custom.srs",
+  });
   fs.writeFileSync(path.join(dir, "site-base.json"), JSON.stringify(base));
-  const p = spawn(process.execPath, ["tools/panel.mjs", "site-base.json"], {
+  const p = spawn(process.execPath, ["tools/panel.mjs", "site-base.json", "--rules-dir", "local/rules"], {
     cwd: dir,
     env: { ...process.env, ATHENA_PANEL_PORT: "17873" },
     windowsHide: true,
@@ -62,7 +68,11 @@ test("offline panel validates origin/revision and saves only a candidate", async
     assert.equal((await post(old)).status, 409);
     const fresh = await (await fetch(origin + "/site-api/state")).json();
     assert.equal(fresh.state.selected.youtube, "US-West-IPv4-Reality");
-    assert(fs.existsSync(path.join(dir, "local/candidate.json")));
+    const candidate = JSON.parse(fs.readFileSync(path.join(dir, "local/candidate.json")));
+    const rules = new Map(candidate.route.rule_set.map((rule) => [rule.tag, rule.path]));
+    assert.equal(rules.get("geosite-anthropic"), path.join(dir, "local/rules/anthropic.srs"));
+    assert.equal(rules.get("geosite-private"), path.join(dir, "local/rules/private.srs"));
+    assert.equal(rules.get("custom-rule-store"), "/srv/custom.srs");
   } finally {
     clearTimeout(timer);
     p.kill("SIGTERM");

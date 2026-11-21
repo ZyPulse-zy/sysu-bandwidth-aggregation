@@ -6,7 +6,8 @@
   "license": "MIT",
   "engines": { "node": ">=22" },
   "scripts": {
-    "test": "node --test tests/*.test.mjs && node tools/audit-public.mjs",
+    "test": "node --test tests/*.test.mjs && npm run audit",
+    "audit": "node tools/audit-public.mjs",
     "generate": "node tools/generate.mjs",
     "panel": "node tools/panel.mjs",
     "rules": "node tools/fetch-rules.mjs"

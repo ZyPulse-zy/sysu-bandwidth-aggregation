@@ -1,12 +1,10 @@
-# RE-CS-02 刷机笔记
+# RE-CS-02 固件与恢复记录
 
 适用记录：JDCOS-4.3.1.r4317 → ImmortalWrt，保留原 GPT 布局。
 
 ## 入口与备份
 
-此版本通过已登录的 `set_port_forward` 管理接口调用设备自带的 `factory_hm info telnet 1` 和 `telnetd`，取得 root 后清理临时规则。参考 [V-2333 原帖](https://www.right.com.cn/forum/thread-8477667-1-1.html)，使用前需核对版本与接口签名。
-
-**Telnet 开关会写厂商持久化标志，因此这条路线取得的 ART 备份是开关启用后的状态。**
+这台设备的备份是在厂商 Telnet 标志启用后取得的，ART 反映当时的状态。考虑更换固件前，先根据设备硬件版本核对可用的管理和恢复入口。
 
 写入前核对设备树、eMMC 容量与扇区大小、分区标签和起止位置；网页曾返回 RE-SS-02，实际设备树为 `jdcloud,re-cs-02`。
 

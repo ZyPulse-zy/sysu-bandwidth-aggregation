@@ -1,0 +1,28 @@
+name: 使用问题或缺陷
+description: 报告可复现的错误、适配问题或文档遗漏
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请使用最小脱敏样本。移除账号、密码、订阅链接、MAC 和实际地址。
+        存在安全影响的问题请通过 Security 页面私密报告。
+  - type: input
+    id: environment
+    attributes:
+      label: 环境
+      description: 提交/版本、设备与固件，或 Node.js 与操作系统版本。
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤和预期结果
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: 实际结果
+      description: 可附公开的错误文本或最小脱敏配置。
+    validations:
+      required: true

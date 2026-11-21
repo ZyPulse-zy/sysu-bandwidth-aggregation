@@ -2,17 +2,17 @@ import fs from "node:fs";
 import path from "node:path";
 import http from "node:http";
 import { fileURLToPath } from "node:url";
-import { generate, loadBase } from "./generate.mjs";
-import { builtin, initial, nodes, validate } from "../lib/site-config.mjs";
+import { generate, readInputs } from "./generate.mjs";
+import { builtin, nodes, validate } from "../lib/site-config.mjs";
+const input = readInputs("panel");
+if (!input) process.exit(0);
+const { base, outDir, rulesDir } = input;
 const root = fileURLToPath(new URL("..", import.meta.url)),
   port = Number(process.env.ATHENA_PANEL_PORT || 17872);
 if (!Number.isInteger(port) || port < 1024 || port > 65535)
   throw Error("Invalid panel port");
 const origin = "http://127.0.0.1:" + port;
-const base = loadBase(process.argv[2], process.argv[4]);
-const saved = path.join(root, "local/site-state.json");
-const stateFile = process.argv[3] || (fs.existsSync(saved) ? saved : null);
-let state = stateFile ? JSON.parse(fs.readFileSync(stateFile)) : initial(base);
+let state = input.state;
 let busy = false;
 const server = http.createServer(async (req, res) => {
   const json = (v, status = 200) => {
@@ -67,7 +67,7 @@ const server = http.createServer(async (req, res) => {
           return json({ error: "Candidate changed; refresh first" }, 409);
         validate(base, next);
         next.revision++;
-        generate(base, next, path.join(root, "local"));
+        generate(base, next, outDir, rulesDir);
         state = next;
         return json({ revision: state.revision, deployed: false });
       } finally {

@@ -1,5 +1,7 @@
 /local/
 /node_modules/
+/private/
+/backups/
 /.env
 /.env.*
 !/.env.example
@@ -13,5 +15,10 @@
 *.tar.gz
 *.db
 *.srs
+*.bak
+*.backup
+*.img
+*.sqlite
+*.sqlite3
 Thumbs.db
 .DS_Store
