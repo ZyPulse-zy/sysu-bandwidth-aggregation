@@ -1,6 +1,6 @@
 # 从单路认证开始
 
-这份指南适合已有 OpenWrt / ImmortalWrt 路由器、准备尝试多账号接入的读者。如果只想试用网站分流工具，可以直接在电脑上运行离线面板。[面板使用指南](08-singbox.md)
+这份指南适合已有 OpenWrt / ImmortalWrt 路由器、准备尝试多账号接入的读者。
 
 ## 1. 核对设备和依赖
 
@@ -25,6 +25,6 @@
 
 ## 4. 逐项添加整形和可选功能
 
-先使用每路上传 CAKE 与下行 IFB，再决定是否需要网页下载流表、游戏专线或透明代理。每次调整后复测吞吐、满载时延、丢包和逐核 CPU。Athena 的脚本使用特定的设备名、nft 表和模块 ABI，按你的设备核对这些值。[整形与测量](04-cake-and-measurement.md) · [Athena 快速路径](11-athena-runtime.md)
+先使用每路上传 CAKE 与下行 IFB，再决定是否需要下载流表和游戏专线。每次调整后复测吞吐、满载时延、丢包和逐核 CPU。Athena 的脚本使用特定的设备名、nft 表和模块 ABI，按你的设备核对这些值。[整形与测量](04-cake-and-measurement.md) · [Athena 快速路径](11-athena-runtime.md)
 
 已移植相同布局时，可运行只读检查脚本对照 WAN bucket、路由规则和 qdisc。对跨设备移植的问题，提交固件、接口命名、一个故障层的最小配置和复现步骤即可。[检查与回退](09-operations.md) · [报告问题](../CONTRIBUTING.md)
